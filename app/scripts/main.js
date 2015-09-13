@@ -5,19 +5,22 @@ function initStars() {
 	var STAR_BASE_STOP = 20;
 	var STAR_MAX_STOP = 30;
 
-	var starWidth = 20;
+	var starWidth = 2;
 
 	// var s = Snap(starWidth,starWidth);
 	var s = Snap('#stars');
 
-	var restingStarGradient = 'r(0.5, 0.5, 0.7)rgba(255,255,255,128):' + STAR_BASE_STOP + '-rgba(255,255,255,0):80';
-	var hoverStarGradient = 'r(0.5, 0.5, {{sizeOffset}})rgba(255,255,255,128):{{offset}}-rgba(255,255,255,0):80';
+	var restingStarGradient = 'r(0.5, 0.5, 0.7)rgba(255,255,255,20):0-rgba(255,255,255,10):' + STAR_BASE_STOP + '-rgba(255,255,255,0):80';
+	var hoverStarGradient = 'r(0.5, 0.5, {{sizeOffset}})rgba(255,255,255,20):0-rgba(255,255,255,10):{{offset}}-rgba(255,255,255,0):80';
 
-	for(var i = 0; i < 100; i++) {
+	for(var i = 0; i < 500; i++) {
+
+		var thisStarWidth = getRandomishInt(starWidth, starWidth * 6);
+
 		var bigCircle = s.circle(
-			(i % 10) * ((starWidth * 2)) + starWidth / 1.8, //1.8 so slightly larger 
-			(i / 10 | 0) * ((starWidth * 2)) + starWidth / 1.8, //1.8 so slightly larger
-			starWidth / 2
+			Math.random() * 1000,
+			Math.random() * 1000,
+			thisStarWidth / 2
 		);
 
 		bigCircle.attr({
@@ -38,7 +41,7 @@ function initStars() {
 				var self = this;
 				Snap.animate(self.currentStop, STAR_BASE_STOP, function(offset) {
 					adjustGradientStop.call(self, offset);
-				}, STAR_HOVER_MILLIS * 3);
+				}, STAR_HOVER_MILLIS * 6);
 			}
 		);
 	};
@@ -47,7 +50,12 @@ function initStars() {
 		this.currentStop = offset;
 		var newGradient = hoverStarGradient
 			.replace('{{offset}}', this.currentStop)
-			.replace('{{sizeOffset}}', 0.7 + 0.01 * this.currentStop);
+			.replace('{{sizeOffset}}', 0.5 + 0.01 * this.currentStop);
 		this.attr({fill: newGradient});
 	}
+}
+
+//more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
+function getRandomishInt(min, max) {
+  return Math.floor(Math.random() / 2 * (max - min) + Math.random() / 2 * (max - min)) + min;
 }
