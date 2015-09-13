@@ -13,9 +13,9 @@ function initStars() {
 	var restingStarGradient = 'r(0.5, 0.5, 0.7)rgba(255,255,255,20):0-rgba(255,255,255,10):' + STAR_BASE_STOP + '-rgba(255,255,255,0):80';
 	var hoverStarGradient = 'r(0.5, 0.5, {{sizeOffset}})rgba(255,255,255,20):0-rgba(255,255,255,10):{{offset}}-rgba(255,255,255,0):80';
 
-	for(var i = 0; i < 500; i++) {
+	for(var i = 0; i < 400; i++) {
 
-		var thisStarWidth = getRandomishInt(starWidth, starWidth * 6);
+		var thisStarWidth = getRandomishInt(starWidth, starWidth * 5);
 
 		var bigCircle = s.circle(
 			Math.random() * 1000,
