@@ -2,60 +2,92 @@ initStars();
 
 function initStars() {
 	var STAR_HOVER_MILLIS = 200;
-	var STAR_BASE_STOP = 20;
-	var STAR_MAX_STOP = 30;
+	var FADE_STEP_COUNT = 50;
 
-	var starWidth = 1.8;
+	var starWidth = 3;
 
 	// var s = Snap(starWidth,starWidth);
 	var s = Snap('#stars');
 
-	var restingStarGradient = 'r(0.5, 0.5, 0.7)rgba(255,255,255,20):0-rgba(255,255,255,10):' + STAR_BASE_STOP + '-rgba(255,255,255,0):80';
-	var hoverStarGradient = 'r(0.5, 0.5, {{sizeOffset}})rgba(255,255,255,20):0-rgba(255,255,255,10):{{offset}}-rgba(255,255,255,0):80';
+	var fillTemplate = 'r(0.5, 0.5, 0.5)rgba({{fillValue}},20):0-rgba({{fillValue}},10):20-rgba({{fillValue}},0):80';
+	var whiteFillValue = '255,255,255';
+	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue)
 
-	for(var i = 0; i < 800; i++) {
-
-		var thisStarWidth = getRandomishInt(starWidth, starWidth * 5);
+	for(var i = 0; i < 400; i++) {
+		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
 
 		var bigCircle = s.circle(
 			Math.random() * 1000,
 			Math.random() * 1000,
-			thisStarWidth / 2
+			thisStarWidth
 		);
 
 		bigCircle.attr({
-			fill: restingStarGradient,
+			fill: whiteFill,
 			strokeWidth: 0
 		});
 
-		bigCircle.currentStop = STAR_BASE_STOP;
+		//add a gradual colour change to 1/10 elements
+		if (i%10 === 0) {
+			var origValues = whiteFillValue.split(',');
+			var valueToAnimateTo = '255,204,0';
+			var newValues = valueToAnimateTo.split(',');
+
+			var increments = calculateArrayIncrements(origValues, newValues, FADE_STEP_COUNT);
+
+			setInterval(function(thisCircle) {
+				Snap.animate(
+					0, FADE_STEP_COUNT * 2,
+					function(offset) {
+						var newRGBVals = calculateTransitionStateColour(origValues, increments, Math.floor(offset), FADE_STEP_COUNT * 2);
+						thisCircle.attr({fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())})
+					},
+					2000
+				)
+			}, 5000 + i * 2, bigCircle)
+		}
+
+		//store what to revert to post-hover
+		bigCircle.originalWidth = thisStarWidth;
 
 		bigCircle.hover(
 			function() {
-				var self = this;
-				Snap.animate(self.currentStop, STAR_MAX_STOP, function(offset) {
-					adjustGradientStop.call(self, offset);
-				}, STAR_HOVER_MILLIS);
+				this.animate({r: this.originalWidth * 2.5}, 500)
 			},
 			function() {
-				var self = this;
-				Snap.animate(self.currentStop, STAR_BASE_STOP, function(offset) {
-					adjustGradientStop.call(self, offset);
-				}, STAR_HOVER_MILLIS * 6);
+				this.animate({r: this.originalWidth}, 1500);
 			}
 		);
 	};
-
-	function adjustGradientStop(offset) {
-		this.currentStop = offset;
-		var newGradient = hoverStarGradient
-			.replace('{{offset}}', this.currentStop)
-			.replace('{{sizeOffset}}', 0.5 + 0.01 * this.currentStop);
-		this.attr({fill: newGradient});
-	}
 }
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
 function getRandomishInt(min, max) {
   return Math.floor(Math.random() / 2 * (max - min) + Math.random() / 2 * (max - min)) + min;
+}
+
+function calculateArrayIncrements(original, destination, steps) {
+	return [
+		( destination[0] - original[0] ) / steps,
+		( destination[1] - original[1] ) / steps,
+		( destination[2] - original[2] ) / steps,
+	];
+}
+
+
+function calculateTransitionStateColour(original, increments, counter, maxCounter) {
+	var offset = 0;
+	//if in first half, count from 0 -> halfway;
+	//if in second half, count backwards halfway -> 0;
+	if(counter < maxCounter / 2) {
+		offset = counter;
+	} else {
+		offset = maxCounter - counter
+	}
+
+	return [
+		Math.round(parseInt(original[0]) + offset * increments[0]),
+		Math.round(parseInt(original[1]) + offset * increments[1]),
+		Math.round(parseInt(original[2]) + offset * increments[2])
+	]
 }
