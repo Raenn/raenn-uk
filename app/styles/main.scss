@@ -13,6 +13,10 @@ body {
 	color: white;
 }
 
+* {
+	box-sizing: border-box;
+}
+
 .browserupgrade {
 	margin: 0.2em 0;
 	background: #ccc;
@@ -22,9 +26,6 @@ body {
 
 html, body {
 	height: 100%;
-}
-
-body {
 }
 
 main {
@@ -91,6 +92,28 @@ main {
 					width: 50%;
 					height: 100%;
 					float: right;
+				}
+
+				.orbit-image {
+					width: 75px;
+					// position: absolute;
+					transform: rotate(6deg);
+
+					&.japan {
+						padding-bottom: 14px;
+					}
+
+					&.steam, &.js, &.stormtrooper {
+						padding: 8px;
+					}
+
+					&.coffee {
+						padding: 4px;
+					}
+
+					&.android {
+						padding: 13px;
+					}
 				}
 			}
 		}
