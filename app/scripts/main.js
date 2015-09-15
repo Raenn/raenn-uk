@@ -1,18 +1,19 @@
 window.onload = initSVGs;
 
 function initSVGs() {
-	var scene = Snap('#stars');
-	// initStars(scene);
-	initMoon(scene);
+	var starScene = Snap('#stars');
+	var moonScene = Snap('#moon');
+	// initStars(starScene);
+	initMoon(moonScene);
 }
 
 function initMoon(scene) {
-	//TODO
-	var cX = 500;
-	var cY = 1080*1.5;
+	//TODO: figure out how to preserve aspect ratio when scaling with snap
+	var cX = 0;
+	var cY = 0;
 	var cRadius = 180;
 
-	var moon = scene.circle(cX, cY, cRadius);
+	var moon = scene.circle('50%', '50%', '20%');
 	moon.attr({'fill': 'r(0.75,-0.25,2.5)-#FF9D5C-#FFCC99:20-#FF8B6F:35-#FFCC99:42-#FFA375:53'});
 }
 
