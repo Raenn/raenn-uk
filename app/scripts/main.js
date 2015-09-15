@@ -2,12 +2,18 @@ window.onload = initSVGs;
 
 function initSVGs() {
 	var scene = Snap('#stars');
-	initStars(scene);
+	// initStars(scene);
 	initMoon(scene);
 }
 
 function initMoon(scene) {
-	//TODO;
+	//TODO
+	var cX = 500;
+	var cY = 1080*1.5;
+	var cRadius = 180;
+
+	var moon = scene.circle(cX, cY, cRadius);
+	moon.attr({'fill': 'r(0.75,-0.25,2.5)-#FF9D5C-#FFCC99:20-#FF8B6F:35-#FFCC99:42-#FFA375:53'});
 }
 
 function initStars(scene) {
