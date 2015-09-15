@@ -5,14 +5,13 @@ function initStars() {
 	var FADE_STEP_COUNT = 50;
 
 	var starWidth = 2.2;
-	var fadeColours = ['153,194,255', '255, 219, 77']
+	var fadeColours = ['153,194,255', '255, 219, 77'];
 
-	// var s = Snap(starWidth,starWidth);
 	var s = Snap('#stars');
 
 	var fillTemplate = 'r(0.5, 0.5, 0.5)rgba({{fillValue}},20):0-rgba({{fillValue}},10):20-rgba({{fillValue}},0):80';
 	var whiteFillValue = '255,255,255';
-	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue)
+	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue);
 
 	for(var i = 0; i < 300; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
@@ -66,7 +65,7 @@ function initStars() {
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
 function getRandomishInt(min, max) {
-  return Math.floor(Math.random() / 2 * (max - min) + Math.random() / 2 * (max - min)) + min;
+	return Math.floor(Math.random() / 2 * (max - min) + Math.random() / 2 * (max - min)) + min;
 }
 
 function calculateArrayIncrements(original, destination, steps) {
@@ -85,14 +84,14 @@ function calculateTransitionStateColour(original, increments, counter, maxCounte
 	if(counter < maxCounter / 2) {
 		offset = counter;
 	} else {
-		offset = maxCounter - counter
+		offset = maxCounter - counter;
 	}
 
 	return [
 		Math.round(parseInt(original[0]) + offset * increments[0]),
 		Math.round(parseInt(original[1]) + offset * increments[1]),
 		Math.round(parseInt(original[2]) + offset * increments[2])
-	]
+	];
 }
 
 function sampleOneFrom(array) {
