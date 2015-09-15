@@ -1,22 +1,35 @@
-initStars();
+window.onload = initSVGs;
 
-function initStars() {
+function initSVGs() {
+	var scene = Snap('#stars');
+	initStars(scene);
+	initMoon(scene);
+}
+
+function initMoon(scene) {
+	//TODO;
+}
+
+function initStars(scene) {
 	var STAR_HOVER_MILLIS = 200;
-	var FADE_STEP_COUNT = 50;
+	var FADE_STEP_COUNT = 10;
 
 	var starWidth = 2.2;
-	var fadeColours = ['153,194,255', '255, 219, 77'];
+	var fadeColours = ['153,194,255', '255,219,77', '193,156,230'];
+	var fadeGroups = {};
 
-	var s = Snap('#stars');
+	fadeColours.forEach(function(colour) {
+		fadeGroups[colour] = scene.group();
+	});
 
 	var fillTemplate = 'r(0.5, 0.5, 0.5)rgba({{fillValue}},20):0-rgba({{fillValue}},10):20-rgba({{fillValue}},0):80';
 	var whiteFillValue = '255,255,255';
 	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue);
 
-	for(var i = 0; i < 300; i++) {
+	for(var i = 0; i < 250; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
 
-		var bigCircle = s.circle(
+		var bigCircle = scene.circle(
 			Math.random() * 1920,
 			Math.random() * 1000,
 			thisStarWidth
@@ -28,25 +41,9 @@ function initStars() {
 		});
 
 		//add a gradual colour change to some elements
-		if (i%5 === 0) {
-
-			var scope = {
-				'circle': bigCircle,
-				'origValues': whiteFillValue.split(','),
-				'newValues': sampleOneFrom(fadeColours).split(','),
-			};
-			scope.increments = calculateArrayIncrements(scope.origValues, scope.newValues, FADE_STEP_COUNT);
-
-			setInterval(function(scope) {
-				Snap.animate(
-					0, FADE_STEP_COUNT * 2,
-					function(offset) {
-						var newRGBVals = calculateTransitionStateColour(scope.origValues, scope.increments, Math.floor(offset), FADE_STEP_COUNT * 2);
-						scope.circle.attr({fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())})
-					},
-					3000
-				)
-			}, 5000 + i * 2, scope)
+		if (i%20 === 0) {
+			var colourGroup = fadeGroups[sampleOneFrom(fadeColours)];
+			colourGroup.add(bigCircle);
 		}
 
 		//store what to revert to post-hover
@@ -61,6 +58,40 @@ function initStars() {
 			}
 		);
 	};
+
+	var groupIndex = 0;
+	Object.keys(fadeGroups).forEach(function(key) {
+
+		groupIndex += 1;
+
+		var origValues = whiteFillValue.split(',');
+		var destValues = key.split(',');
+		var group = fadeGroups[key];
+		var increments = calculateArrayIncrements(origValues, destValues, FADE_STEP_COUNT);
+
+		setTimeout(function() {
+			setInterval(function() {
+				Snap.animate(
+					0, FADE_STEP_COUNT * 2,
+					function(offset) {
+						var newRGBVals = calculateTransitionStateColour(
+							origValues,
+							increments,
+							Math.floor(offset),
+							FADE_STEP_COUNT * 2
+						);
+						group.children().forEach(function(child) {
+							child.attr({
+								fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())
+							});
+						})
+					},
+					1500
+				)
+
+			}, 4000);
+		}, groupIndex * 1000);
+	})
 }
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
