@@ -5,6 +5,7 @@ function initStars() {
 	var FADE_STEP_COUNT = 50;
 
 	var starWidth = 2.2;
+	var fadeColours = ['153,194,255', '255, 219, 77']
 
 	// var s = Snap(starWidth,starWidth);
 	var s = Snap('#stars');
@@ -27,24 +28,26 @@ function initStars() {
 			strokeWidth: 0
 		});
 
-		//add a gradual colour change to 1/10 elements
-		if (i%10 === 0) {
-			var origValues = whiteFillValue.split(',');
-			var valueToAnimateTo = '255,204,0';
-			var newValues = valueToAnimateTo.split(',');
+		//add a gradual colour change to some elements
+		if (i%5 === 0) {
 
-			var increments = calculateArrayIncrements(origValues, newValues, FADE_STEP_COUNT);
+			var scope = {
+				'circle': bigCircle,
+				'origValues': whiteFillValue.split(','),
+				'newValues': sampleOneFrom(fadeColours).split(','),
+			};
+			scope.increments = calculateArrayIncrements(scope.origValues, scope.newValues, FADE_STEP_COUNT);
 
-			setInterval(function(thisCircle) {
+			setInterval(function(scope) {
 				Snap.animate(
 					0, FADE_STEP_COUNT * 2,
 					function(offset) {
-						var newRGBVals = calculateTransitionStateColour(origValues, increments, Math.floor(offset), FADE_STEP_COUNT * 2);
-						thisCircle.attr({fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())})
+						var newRGBVals = calculateTransitionStateColour(scope.origValues, scope.increments, Math.floor(offset), FADE_STEP_COUNT * 2);
+						scope.circle.attr({fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())})
 					},
-					2000
+					3000
 				)
-			}, 5000 + i * 2, bigCircle)
+			}, 5000 + i * 2, scope)
 		}
 
 		//store what to revert to post-hover
@@ -90,4 +93,9 @@ function calculateTransitionStateColour(original, increments, counter, maxCounte
 		Math.round(parseInt(original[1]) + offset * increments[1]),
 		Math.round(parseInt(original[2]) + offset * increments[2])
 	]
+}
+
+function sampleOneFrom(array) {
+	var index = Math.round(Math.random() * (array.length - 1));
+	return array[index];
 }
