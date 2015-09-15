@@ -4,7 +4,7 @@ function initStars() {
 	var STAR_HOVER_MILLIS = 200;
 	var FADE_STEP_COUNT = 50;
 
-	var starWidth = 3;
+	var starWidth = 2.2;
 
 	// var s = Snap(starWidth,starWidth);
 	var s = Snap('#stars');
@@ -13,11 +13,11 @@ function initStars() {
 	var whiteFillValue = '255,255,255';
 	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue)
 
-	for(var i = 0; i < 400; i++) {
+	for(var i = 0; i < 300; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
 
 		var bigCircle = s.circle(
-			Math.random() * 1000,
+			Math.random() * 1920,
 			Math.random() * 1000,
 			thisStarWidth
 		);
