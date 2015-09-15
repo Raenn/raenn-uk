@@ -37,6 +37,9 @@ main {
 	#stars {
 		position: absolute;
 		z-index: 1;
+
+		animation-duration: 3s;
+		animation-delay: 2.5s;
 	}
 
 	.content {
