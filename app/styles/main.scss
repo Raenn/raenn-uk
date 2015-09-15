@@ -2,6 +2,7 @@
 // endbower
 
 @import 'fonts';
+@import 'animated';
 
 $space-black: rgb(17,26,34);
 $space-blue: rgb(30,52,62);
@@ -53,10 +54,15 @@ main {
 			font-size: 8em;
 			margin-top: 1em;
 			margin-bottom: 0.2em;
+
+			animation-delay: 0.5s;
 		}
 
 		.ahoy-subheading {
 			font-weight: 300;
+			font-size: 1.8em;
+
+			animation-delay: 1.5s;
 
 			.cheesy-joke {
 				border-bottom: 1px dashed rgba(255,255,255,0.2);
