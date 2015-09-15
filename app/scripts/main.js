@@ -26,7 +26,7 @@ function initStars(scene) {
 	var whiteFillValue = '255,255,255';
 	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue);
 
-	for(var i = 0; i < 250; i++) {
+	for(var i = 0; i < 150; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
 
 		var bigCircle = scene.circle(

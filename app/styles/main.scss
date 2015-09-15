@@ -9,13 +9,8 @@ $space-blue: rgb(30,52,62);
 
 body {
 	font-family: 'Josefin Sans', sans-serif;
+	margin: 0;
 	color: white;
-
-	background: -webkit-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-	background: -o-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-	background: -moz-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-	background: repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-
 }
 
 .browserupgrade {
@@ -25,53 +20,71 @@ body {
 	padding: 0.2em 0;
 }
 
-html, body, main, #stars {
-	width: 100%;
+html, body {
 	height: 100%;
-	margin: 0;
+}
+
+body {
 }
 
 main {
-	overflow-y: hidden;
-
-	#stars {
-		position: absolute;
-		z-index: 1;
-
-		animation-duration: 3s;
-		animation-delay: 2.5s;
-	}
+	background: -webkit-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
+	background: -o-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
+	background: -moz-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
+	background: repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
 
 	.content {
-		position: absolute;
 		z-index: 2;
 		width: 100%;
 
-		.ahoy, .ahoy-subheading {
-			text-align: center;
-			text-shadow: 3px 3px 4px #666;
+		#stars {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 0;
+
+			height: 300vh;
+			width: 100vw;
+
+			animation-duration: 3s;
+			animation-delay: 2.5s;
 		}
 
-		.ahoy {
-			font-weight: 100;
-			font-size: 8em;
-			margin-top: 1em;
-			margin-bottom: 0.2em;
+		.panel {
+			width: 100vw;
+			height: 100vh;
 
-			animation-delay: 0.5s;
-		}
+			z-index: 1;
 
-		.ahoy-subheading {
-			font-weight: 300;
-			font-size: 1.8em;
+			&.welcome {
+				.ahoy,
+				.ahoy-subheading {
+					text-align: center;
+					text-shadow: 3px 3px 4px #666;
+				}
 
-			animation-delay: 1.5s;
+				.ahoy {
+					font-weight: 100;
+					font-size: 8em;
+					padding-top: 1em;
+					margin-top: 0;
+					margin-bottom: 0.2em;
 
-			.cheesy-joke {
-				border-bottom: 1px dashed rgba(255,255,255,0.2);
-				cursor: help;
+					animation-delay: 0.5s;
+				}
+
+				.ahoy-subheading {
+					font-weight: 300;
+					font-size: 1.8em;
+
+					animation-delay: 1.5s;
+
+					.cheesy-joke {
+						border-bottom: 1px dashed rgba(255,255,255,0.2);
+						cursor: help;
+					}
+				}
 			}
 		}
 	}
-
 }
