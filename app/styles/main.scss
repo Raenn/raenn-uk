@@ -7,6 +7,9 @@
 $space-black: rgb(17,26,34);
 $space-blue: rgb(30,52,62);
 
+$link-blue: #99CCFF;
+$link-hover-blue: #B8DBFF;
+
 body {
 	font-family: 'Josefin Sans', sans-serif;
 	margin: 0;
@@ -15,6 +18,18 @@ body {
 
 * {
 	box-sizing: border-box;
+}
+
+a {
+	color: $link-blue;
+	text-decoration: none;
+	border-bottom: 1px dashed rgba($link-blue, 0.4);
+
+	&:hover,
+	&:focus {
+		color: $link-hover-blue;
+		border-bottom-color: $link-hover-blue;
+	}
 }
 
 .browserupgrade {
@@ -88,6 +103,33 @@ main {
 			}
 
 			&.about {
+				.copy-vertical-wrapper,
+				.copy {
+					display: inline-block;
+					z-index: 3;
+
+					h1 {
+						font-weight: 100;
+						font-size: 40px;
+					}
+				}
+
+				.copy-vertical-wrapper {
+					position: relative;
+					height: 100%;
+					width: 50%;
+				}
+
+				.copy {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					padding-left: 5%;
+					padding-top: 20px;
+					padding-bottom: 20px;
+					text-align: center;
+				}
+
 				.moon-wrapper {
 					z-index: 1;
 					height: 100%;
@@ -104,7 +146,6 @@ main {
 				.orbit-image {
 					position: absolute;
 					width: 75px;
-					// position: absolute;
 					transform: rotate(6deg);
 
 					&.japan {
