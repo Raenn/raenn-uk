@@ -88,11 +88,17 @@ main {
 			}
 
 			&.about {
-				#moon {
-					width: 50%;
-					height: 100%;
-					float: right;
+				.moon-wrapper {
 					z-index: 1;
+					height: 100%;
+					width: 50%;
+					float: right;
+					position: relative;
+
+					#moon {
+						width: 100%;
+						height: 100%;
+					}
 				}
 
 				.orbit-image {
