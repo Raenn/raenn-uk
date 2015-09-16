@@ -1,4 +1,9 @@
-window.onload = initSVGs;
+window.onload = initSpace;
+
+function initSpace() {
+	initSVGs();
+	initOrbit();
+}
 
 function initSVGs() {
 	var starScene = Snap('#stars');
@@ -99,6 +104,55 @@ function initStars(scene) {
 			}, 4000);
 		}, groupIndex * 1000);
 	})
+}
+
+//loops between 0 and 2*Math.PI
+var orbitOffset = 0;
+var orbitIncrement = Math.PI / 512;
+var orbitMax = 2 * Math.PI;
+
+function initOrbit() {
+	var orbitElements = document.getElementsByClassName('orbit-image');
+
+	//TODO: pause/start interval only when moon is in view
+	var interval = setInterval(function() {
+		updateOrbit(orbitElements);
+	}, 20);
+}
+
+//TODO: position moon + orbit seriously
+//TODO: fix z-index of SVG moon not being applied...?
+function updateOrbit(elements) {
+	var step = 2 * Math.PI / elements.length;
+	var a = 200;
+	var b = 80;
+	var theta = -25 * (2 * Math.PI / 360); //rotation angle
+
+	var i = 0;
+
+	for(var angle = 0; angle < 2*Math.PI; angle += step) {
+		var x = a * Math.cos(angle + orbitOffset);
+		var y = b * Math.sin(angle + orbitOffset);
+
+		var cosTheta = Math.cos(theta);
+		var sinTheta = Math.sin(theta);
+
+		var xDash = x * cosTheta + y * sinTheta;
+		var yDash = y * cosTheta - x * sinTheta;
+
+		elements[i].style.left = 443 + xDash + 'px';
+		elements[i].style.top = 961 + yDash + 'px';
+
+		if(y < 0) {
+			elements[i].style.zIndex = 0;
+		} else {
+			elements[i].style.zIndex = 2;
+		}
+
+		i += 1;
+	}
+
+	orbitOffset = (orbitOffset + orbitIncrement) % orbitMax;
 }
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
