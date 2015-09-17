@@ -43,6 +43,22 @@ html, body {
 	height: 100%;
 }
 
+.copy-vertical-wrapper {
+	position: relative;
+	height: 100%;
+}
+
+.copy {
+	position: absolute;
+	width: 100%;
+	top: 50%;
+	transform: translateY(-50%);
+	padding-left: 5%;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	text-align: center;
+}
+
 main {
 	background: -webkit-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
 	background: -o-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
@@ -53,30 +69,35 @@ main {
 		z-index: 2;
 		width: 100%;
 
-		#stars {
+		.stars-wrapper {
 			position: absolute;
 			top: 0;
 			left: 0;
-			z-index: 0;
+			z-index: 1;
 
 			height: 300vh;
 			width: 100%;
 
-			animation-duration: 3s;
-			animation-delay: 2.5s;
+			#stars {
+				animation-duration: 3s;
+				animation-delay: 2.5s;
+				height: 100%;
+				width: 100%;
+			}
 		}
 
 		.panel {
 			height: 100vh;
 			width: 100%;
 
-			z-index: 1;
+			z-index: 3;
 
 			&.welcome {
 				.ahoy,
 				.ahoy-subheading {
 					text-align: center;
 					text-shadow: 3px 3px 4px #666;
+					z-index: 4;
 				}
 
 				.ahoy {
@@ -115,19 +136,7 @@ main {
 				}
 
 				.copy-vertical-wrapper {
-					position: relative;
-					height: 100%;
 					width: 50%;
-				}
-
-				.copy {
-					position: absolute;
-					top: 50%;
-					transform: translateY(-50%);
-					padding-left: 5%;
-					padding-top: 20px;
-					padding-bottom: 20px;
-					text-align: center;
 				}
 
 				.moon-wrapper {
@@ -163,6 +172,54 @@ main {
 					&.android {
 						padding: 13px;
 					}
+				}
+			}
+
+			&.contact {
+
+				h1 {
+					font-weight: 100;
+					font-size: 48px;
+				}
+
+				button.social {
+					background-color: transparent;
+					border: none;
+					padding: 0 5px 5px 5px;
+					margin: 20px;
+					cursor: pointer;
+
+					transition: background-color 0.4s ease-out;
+				}
+
+				button.social span {
+					font-size: 40px;
+				}
+
+				button.social span:before {
+					vertical-align: middle;
+				}
+
+				button.twitter {
+					&:hover {
+						background-color: rgba(#00ACED, 0.8);
+					}
+				}
+
+				button.github {
+					&:hover {
+						background-color: rgba(59, 59, 59, 0.8);
+					}
+				}
+
+				button.linkedin {
+					&:hover {
+						background-color: rgba(0, 122, 181, 0.8);
+					}
+				}
+
+				.copy {
+					z-index: 4;
 				}
 			}
 		}

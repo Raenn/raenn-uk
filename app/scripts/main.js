@@ -121,7 +121,6 @@ function initOrbit() {
 }
 
 //TODO: position moon + orbit seriously
-//TODO: fix z-index of SVG moon not being applied...?
 function updateOrbit(elements) {
 	var step = 2 * Math.PI / elements.length;
 	var a = 200;
