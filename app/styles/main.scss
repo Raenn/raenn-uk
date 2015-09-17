@@ -9,6 +9,7 @@ $space-blue: rgb(30,52,62);
 
 $link-blue: #99CCFF;
 $link-hover-blue: #B8DBFF;
+$link-visited-purple: #99A6FF;
 
 body {
 	font-family: 'Josefin Sans', sans-serif;
@@ -25,10 +26,17 @@ a {
 	text-decoration: none;
 	border-bottom: 1px dashed rgba($link-blue, 0.4);
 
+	transition: color 0.2s ease-out, border-color 0.2s ease-out;
+
 	&:hover,
 	&:focus {
 		color: $link-hover-blue;
 		border-bottom-color: $link-hover-blue;
+	}
+
+	&:visited {
+		color: $link-visited-purple;
+		border-bottom-color: $link-visited-purple;
 	}
 }
 
@@ -131,7 +139,7 @@ main {
 
 					h1 {
 						font-weight: 100;
-						font-size: 40px;
+						font-size: 50px;
 					}
 				}
 
@@ -176,50 +184,74 @@ main {
 			}
 
 			&.contact {
+				.copy {
+					z-index: 4;
+				}
 
 				h1 {
 					font-weight: 100;
-					font-size: 48px;
+					font-size: 50px;
+					margin-bottom: 9px;
 				}
 
-				button.social {
+				a.social {
+					display: inline-block;
 					background-color: transparent;
 					border: none;
-					padding: 0 5px 5px 5px;
-					margin: 20px;
+					padding: 1px 8px 5px 8px;
+					margin: 10px;
 					cursor: pointer;
+					border-radius: 8px;
+
+					color: rbga(white, 0.8);
 
 					transition: background-color 0.4s ease-out;
-				}
 
-				button.social span {
-					font-size: 40px;
-				}
+					&.twitter:hover {
+						background-color: rgba(#00ACED, 0.5);
+					}
 
-				button.social span:before {
-					vertical-align: middle;
-				}
+					&.github:hover {
+						background-color: rgba(59, 59, 59, 0.5);
+					}
 
-				button.twitter {
-					&:hover {
-						background-color: rgba(#00ACED, 0.8);
+					&.linkedin:hover {
+						background-color: rgba(0, 122, 181, 0.5);
+					}
+
+					span {
+						font-size: 40px;
+						border-bottom-width: 0px;
+
+						&:before {
+							vertical-align: middle;
+							color: rgba(white, 0.9);
+						}
+					}
+
+					&:hover span:before {
+						color: rgba(white, 1);
 					}
 				}
 
-				button.github {
-					&:hover {
-						background-color: rgba(59, 59, 59, 0.8);
-					}
-				}
+				button.cv {
+					background-color: rgba(#349BA0, 1);
+					border: 0;
+					border-radius: 8px;
+					padding: 10px 20px;
+					font-size: 25px;
+					font-weight: 300;
+					font-family: "Josefin Sans",sans-serif; //I don't know why this isn't being inherited in firefox??
+					color: white;
+					cursor: pointer;
 
-				button.linkedin {
-					&:hover {
-						background-color: rgba(0, 122, 181, 0.8);
-					}
-				}
+					transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
 
-				.copy {
-					z-index: 4;
+					&:hover {
+						padding: 9px 21px 11px 19px;
+						background-color: #5DAFB3;
+						box-shadow: 2px 3px rgba(80,80,80,0.5)
+					}
 				}
 			}
 		}
