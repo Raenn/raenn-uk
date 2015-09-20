@@ -90,14 +90,19 @@ var orbitIncrement = Math.PI / 512;
 var orbitMax = 2 * Math.PI;
 var orbitCenterX = 0;
 var orbitCenterY = 0;
+var orbitXRadius = 200;
+var orbitYRadius = 80;
 
 window.onresize = updateOrbitCenter;
 
 function updateOrbitCenter() {
 	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
 	 //slight shifts needed because of rotation
-	orbitCenterX = (moonAttrs.left + moonAttrs.width / 2) * 0.96;
-	orbitCenterY =  moonAttrs.height / 2.1;
+	orbitCenterX = moonAttrs.left * 0.95 + (moonAttrs.width / 2);
+	orbitCenterY =  moonAttrs.height / 2.2;
+
+	orbitXRadius = (moonAttrs.width / 2) * 0.7;
+	orbitYRadius = orbitXRadius * 0.4;
 }
 
 function initOrbit() {
@@ -113,19 +118,18 @@ function initOrbit() {
 //TODO: position moon + orbit seriously
 function updateOrbit(elements) {
 	var step = 2 * Math.PI / elements.length;
-	var a = 200;
-	var b = 80;
 	var theta = -25 * (2 * Math.PI / 360); //rotation angle
 
 	var i = 0;
 
 	for(var angle = 0; angle < 2*Math.PI; angle += step) {
-		var x = a * Math.cos(angle + orbitOffset);
-		var y = b * Math.sin(angle + orbitOffset);
+		var x = orbitXRadius * Math.cos(angle + orbitOffset);
+		var y = orbitYRadius * Math.sin(angle + orbitOffset);
 
 		var cosTheta = Math.cos(theta);
 		var sinTheta = Math.sin(theta);
 
+		//rotate by theta degrees
 		var xDash = x * cosTheta + y * sinTheta;
 		var yDash = y * cosTheta - x * sinTheta;
 

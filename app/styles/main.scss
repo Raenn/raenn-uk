@@ -138,6 +138,8 @@ main {
 			}
 
 			&.about {
+				overflow: hidden;
+
 				.copy-vertical-wrapper,
 				.copy {
 					display: inline-block;
