@@ -8,6 +8,7 @@ var orbitXRadius = 200;
 var orbitYRadius = 80;
 
 var cvActive = false;
+var activeCVSection = 0;
 
 window.onresize = updateOrbitCenter;
 window.onload = initSpace;
@@ -190,6 +191,20 @@ function toggleCV() {
 		cvBox.className = cvBox.className + ' show';
 	}
 	cvActive = !cvActive;
+}
+
+function setActiveCVSection(index) {
+	var cvSections = document.getElementsByClassName('cv-section');
+	var copySections = document.getElementsByClassName('copy-section');
+	if(index < 0 || index > cvSections.length) {
+		//wat r u doin
+		return;
+	}
+	cvSections[activeCVSection].className = cvSections[activeCVSection].className.replace(/\s?active/, '')
+	cvSections[index].className += ' active'
+	copySections[activeCVSection].className = copySections[activeCVSection].className.replace(/\s?active/, '')
+	copySections[index].className += ' active'
+	activeCVSection = index;
 }
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
