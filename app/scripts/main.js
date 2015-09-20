@@ -1,3 +1,15 @@
+//loops between 0 and 2*Math.PI
+var orbitOffset = 0;
+var orbitIncrement = Math.PI / 512;
+var orbitMax = 2 * Math.PI;
+var orbitCenterX = 0;
+var orbitCenterY = 0;
+var orbitXRadius = 200;
+var orbitYRadius = 80;
+
+var cvActive = false;
+
+window.onresize = updateOrbitCenter;
 window.onload = initSpace;
 
 function initSpace() {
@@ -88,17 +100,6 @@ function updateParallax(scrollY) {
 	}
 }
 
-//loops between 0 and 2*Math.PI
-var orbitOffset = 0;
-var orbitIncrement = Math.PI / 512;
-var orbitMax = 2 * Math.PI;
-var orbitCenterX = 0;
-var orbitCenterY = 0;
-var orbitXRadius = 200;
-var orbitYRadius = 80;
-
-window.onresize = updateOrbitCenter;
-
 function updateOrbitCenter() {
 	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
 	 //slight shifts needed because of rotation
@@ -179,6 +180,16 @@ function scrollToAbout() {
 	}
 
 	window.requestAnimationFrame(scroll);
+}
+
+function toggleCV() {
+	var cvBox = document.getElementById('cv-container');
+	if(cvActive) {
+		cvBox.className = cvBox.className.replace('show', '');
+	} else {
+		cvBox.className = cvBox.className + ' show';
+	}
+	cvActive = !cvActive;
 }
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
