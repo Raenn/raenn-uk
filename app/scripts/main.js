@@ -8,7 +8,7 @@ function initSpace() {
 function initSVGs() {
 	var starScene = Snap('#stars');
 	var moonScene = Snap('#moon');
-	// initStars(starScene);
+	initStars(starScene);
 	initMoon(moonScene);
 }
 
@@ -38,12 +38,16 @@ function initStars(scene) {
 	var whiteFillValue = '255,255,255';
 	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue);
 
-	for(var i = 0; i < 150; i++) {
+	//make more stars if given a wider area
+	var sceneSize = scene.node.getBoundingClientRect();
+	var starCount = (sceneSize.width * sceneSize.height) / 18000;
+
+	for(var i = 0; i < starCount; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
 
 		var bigCircle = scene.circle(
-			Math.random() * 1920,
-			Math.random() * 1000,
+			Math.random() * 100 + '%',
+			Math.random() * 100 + '%',
 			thisStarWidth
 		);
 
@@ -53,10 +57,10 @@ function initStars(scene) {
 		});
 
 		//add a gradual colour change to some elements
-		if (i%20 === 0) {
-			var colourGroup = fadeGroups[sampleOneFrom(fadeColours)];
-			colourGroup.add(bigCircle);
-		}
+		// if (i%20 === 0) {
+		// 	var colourGroup = fadeGroups[sampleOneFrom(fadeColours)];
+		// 	colourGroup.add(bigCircle);
+		// }
 
 		//store what to revert to post-hover
 		bigCircle.originalWidth = thisStarWidth;
@@ -71,39 +75,39 @@ function initStars(scene) {
 		);
 	};
 
-	var groupIndex = 0;
-	Object.keys(fadeGroups).forEach(function(key) {
+	// var groupIndex = 0;
+	// Object.keys(fadeGroups).forEach(function(key) {
 
-		groupIndex += 1;
+	// 	groupIndex += 1;
 
-		var origValues = whiteFillValue.split(',');
-		var destValues = key.split(',');
-		var group = fadeGroups[key];
-		var increments = calculateArrayIncrements(origValues, destValues, FADE_STEP_COUNT);
+	// 	var origValues = whiteFillValue.split(',');
+	// 	var destValues = key.split(',');
+	// 	var group = fadeGroups[key];
+	// 	var increments = calculateArrayIncrements(origValues, destValues, FADE_STEP_COUNT);
 
-		setTimeout(function() {
-			setInterval(function() {
-				Snap.animate(
-					0, FADE_STEP_COUNT * 2,
-					function(offset) {
-						var newRGBVals = calculateTransitionStateColour(
-							origValues,
-							increments,
-							Math.floor(offset),
-							FADE_STEP_COUNT * 2
-						);
-						group.children().forEach(function(child) {
-							child.attr({
-								fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())
-							});
-						})
-					},
-					1500
-				)
+	// 	setTimeout(function() {
+	// 		setInterval(function() {
+	// 			Snap.animate(
+	// 				0, FADE_STEP_COUNT * 2,
+	// 				function(offset) {
+	// 					var newRGBVals = calculateTransitionStateColour(
+	// 						origValues,
+	// 						increments,
+	// 						Math.floor(offset),
+	// 						FADE_STEP_COUNT * 2
+	// 					);
+	// 					group.children().forEach(function(child) {
+	// 						child.attr({
+	// 							fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())
+	// 						});
+	// 					})
+	// 				},
+	// 				1500
+	// 			)
 
-			}, 4000);
-		}, groupIndex * 1000);
-	})
+	// 		}, 4000);
+	// 	}, groupIndex * 1000);
+	// })
 }
 
 //loops between 0 and 2*Math.PI
