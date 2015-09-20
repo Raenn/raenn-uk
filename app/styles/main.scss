@@ -82,14 +82,19 @@ main {
 			top: 0;
 			left: 0;
 			z-index: 1;
+			overflow-y: hidden;
 
 			height: 300vh;
 			width: 100%;
 
-			#stars {
-				animation-duration: 3s;
-				animation-delay: 2.5s;
-				height: 100%;
+			animation-duration: 3s;
+			animation-delay: 2.5s;
+
+			.stars {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 120%;
 				width: 100%;
 			}
 		}

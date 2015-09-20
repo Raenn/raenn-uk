@@ -6,9 +6,11 @@ function initSpace() {
 }
 
 function initSVGs() {
-	var starScene = Snap('#stars');
+	var starScene1 = Snap('#stars-near');
+	var starScene2 = Snap('#stars-mid');
+	var starScene3 = Snap('#stars-far');
 	var moonScene = Snap('#moon');
-	initStars(starScene);
+	initStars([starScene1, starScene2, starScene3]);
 	initMoon(moonScene);
 }
 
@@ -22,28 +24,23 @@ function initMoon(scene) {
 	moon.attr({'fill': 'r(0.75,-0.25,2.5)-#FF9D5C-#FFCC99:20-#FF8B6F:35-#FFCC99:42-#FFA375:53'});
 }
 
-function initStars(scene) {
+function initStars(scenes) {
 	var STAR_HOVER_MILLIS = 200;
-	var FADE_STEP_COUNT = 10;
 
 	var starWidth = 2.2;
-	var fadeColours = ['153,194,255', '255,219,77', '193,156,230'];
-	var fadeGroups = {};
-
-	fadeColours.forEach(function(colour) {
-		fadeGroups[colour] = scene.group();
-	});
 
 	var fillTemplate = 'r(0.5, 0.5, 0.5)rgba({{fillValue}},20):0-rgba({{fillValue}},10):20-rgba({{fillValue}},0):80';
 	var whiteFillValue = '255,255,255';
 	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue);
 
 	//make more stars if given a wider area
-	var sceneSize = scene.node.getBoundingClientRect();
+	var sceneSize = scenes[0].node.getBoundingClientRect();
 	var starCount = (sceneSize.width * sceneSize.height) / 18000;
 
 	for(var i = 0; i < starCount; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
+
+		var scene = scenes[i % scenes.length];
 
 		var bigCircle = scene.circle(
 			Math.random() * 100 + '%',
@@ -55,12 +52,6 @@ function initStars(scene) {
 			fill: whiteFill,
 			strokeWidth: 0
 		});
-
-		//add a gradual colour change to some elements
-		// if (i%20 === 0) {
-		// 	var colourGroup = fadeGroups[sampleOneFrom(fadeColours)];
-		// 	colourGroup.add(bigCircle);
-		// }
 
 		//store what to revert to post-hover
 		bigCircle.originalWidth = thisStarWidth;
@@ -74,40 +65,23 @@ function initStars(scene) {
 			}
 		);
 	};
+}
 
-	// var groupIndex = 0;
-	// Object.keys(fadeGroups).forEach(function(key) {
+window.onscroll = function() {
+	var scroll = window.pageYOffset || document.body.scrollTop;
+	window.requestAnimationFrame(function() {
+		updateParallax(scroll);
+	})
+};
 
-	// 	groupIndex += 1;
+function updateParallax(scrollY) {
+	var elements = document.getElementsByClassName('stars');
+	//can't forEach on a html collection :'(
 
-	// 	var origValues = whiteFillValue.split(',');
-	// 	var destValues = key.split(',');
-	// 	var group = fadeGroups[key];
-	// 	var increments = calculateArrayIncrements(origValues, destValues, FADE_STEP_COUNT);
-
-	// 	setTimeout(function() {
-	// 		setInterval(function() {
-	// 			Snap.animate(
-	// 				0, FADE_STEP_COUNT * 2,
-	// 				function(offset) {
-	// 					var newRGBVals = calculateTransitionStateColour(
-	// 						origValues,
-	// 						increments,
-	// 						Math.floor(offset),
-	// 						FADE_STEP_COUNT * 2
-	// 					);
-	// 					group.children().forEach(function(child) {
-	// 						child.attr({
-	// 							fill: fillTemplate.replace(/\{\{fillValue\}\}/g, newRGBVals.join())
-	// 						});
-	// 					})
-	// 				},
-	// 				1500
-	// 			)
-
-	// 		}, 4000);
-	// 	}, groupIndex * 1000);
-	// })
+	for(var i = 0; i < elements.length; i++) {
+		var scrollMultiplier = elements[i].getAttribute('parallax-amount');
+		elements[i].style.top = -scrollY * scrollMultiplier + 'px';
+	}
 }
 
 //loops between 0 and 2*Math.PI
@@ -157,6 +131,12 @@ function updateOrbit(elements) {
 
 	orbitOffset = (orbitOffset + orbitIncrement) % orbitMax;
 }
+
+window.requestAnimationFrame = window.requestAnimationFrame
+	|| window.mozRequestAnimationFrame
+	|| window.webkitRequestAnimationFrame
+	|| window.msRequestAnimationFrame
+	|| function(f){return setTimeout(f, 1000/60)} //fall back method, run roughly 60 times per second
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
 function getRandomishInt(min, max) {
