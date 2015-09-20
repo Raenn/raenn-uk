@@ -107,7 +107,8 @@ main {
 
 			&.welcome {
 				.ahoy,
-				.ahoy-subheading {
+				.ahoy-subheading,
+				#down-chevron {
 					text-align: center;
 					text-shadow: 3px 3px 4px #666;
 					z-index: 4;
@@ -132,6 +133,23 @@ main {
 					.cheesy-joke {
 						border-bottom: 1px dashed rgba(255,255,255,0.2);
 						cursor: help;
+					}
+				}
+
+				#down-chevron {
+					position: absolute;
+					bottom: 0;
+					left: calc(50% - 0.5em);
+					margin-bottom: 2%;
+					font-size: 5em;
+					cursor: pointer;
+					animation-delay: 3.5s;
+
+					transition: opacity 0.4s ease-out;
+
+					&:not(.visible) {
+						opacity: 0 !important;
+						cursor: default;
 					}
 				}
 			}
@@ -209,7 +227,7 @@ main {
 					z-index: 4;
 
 					p {
-						max-width: 360px;
+						max-width: 400px;
 						margin-left: auto;
 						margin-right: auto;
 						margin-bottom: 5%;

@@ -69,6 +69,10 @@ function initStars(scenes) {
 
 window.onscroll = function() {
 	var scroll = window.pageYOffset || document.body.scrollTop;
+	if(scroll !== 0)  {
+		document.getElementById('down-chevron').className =
+			document.getElementById('down-chevron').className.replace(' visible', '')
+	}
 	window.requestAnimationFrame(function() {
 		updateParallax(scroll);
 	})
@@ -101,7 +105,7 @@ function updateOrbitCenter() {
 	orbitCenterX = moonAttrs.left * 0.95 + (moonAttrs.width / 2);
 	orbitCenterY =  moonAttrs.height / 2.2;
 
-	orbitXRadius = (moonAttrs.width / 2) * 0.7;
+	orbitXRadius = (moonAttrs.width / 2) * 0.75;
 	orbitYRadius = orbitXRadius * 0.4;
 }
 
@@ -157,6 +161,25 @@ window.requestAnimationFrame = window.requestAnimationFrame
 	|| window.webkitRequestAnimationFrame
 	|| window.msRequestAnimationFrame
 	|| function(f){return setTimeout(f, 1000/60)} //fall back method, run roughly 60 times per second
+
+function scrollToAbout() {
+	var scrollSteps = 80;
+	var increment = (window.innerHeight - window.scrollY) / scrollSteps;
+	var i = 0;
+
+	// decelerating to zero velocity
+	function easeOutQuint(t) { return 1+(--t)*t*t*t*t };
+
+	function scroll() {
+		i += 1;
+		window.scrollTo(0, i * easeOutQuint(i / scrollSteps) * increment);
+		if (i < scrollSteps) {
+			window.requestAnimationFrame(scroll);
+		}
+	}
+
+	window.requestAnimationFrame(scroll);
+}
 
 //more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
 function getRandomishInt(min, max) {
