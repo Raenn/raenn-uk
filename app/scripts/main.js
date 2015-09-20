@@ -88,9 +88,21 @@ function updateParallax(scrollY) {
 var orbitOffset = 0;
 var orbitIncrement = Math.PI / 512;
 var orbitMax = 2 * Math.PI;
+var orbitCenterX = 0;
+var orbitCenterY = 0;
+
+window.onresize = updateOrbitCenter;
+
+function updateOrbitCenter() {
+	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
+	 //slight shifts needed because of rotation
+	orbitCenterX = (moonAttrs.left + moonAttrs.width / 2) * 0.96;
+	orbitCenterY =  moonAttrs.height / 2.1;
+}
 
 function initOrbit() {
 	//TODO: pause/start interval only when moon is in view
+	updateOrbitCenter();
 	var orbitElements = document.getElementsByClassName('orbit-image');
 
 	window.requestAnimationFrame(function() {
@@ -117,8 +129,8 @@ function updateOrbit(elements) {
 		var xDash = x * cosTheta + y * sinTheta;
 		var yDash = y * cosTheta - x * sinTheta;
 
-		elements[i].style.left = 443 + xDash + 'px';
-		elements[i].style.top = 961 + yDash + 'px';
+		elements[i].style.left = orbitCenterX + xDash + 'px';
+		elements[i].style.top = orbitCenterY + yDash + 'px';
 
 		if(y < 0) {
 			elements[i].style.zIndex = 0;
