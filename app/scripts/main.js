@@ -90,12 +90,12 @@ var orbitIncrement = Math.PI / 512;
 var orbitMax = 2 * Math.PI;
 
 function initOrbit() {
+	//TODO: pause/start interval only when moon is in view
 	var orbitElements = document.getElementsByClassName('orbit-image');
 
-	//TODO: pause/start interval only when moon is in view
-	var interval = setInterval(function() {
+	window.requestAnimationFrame(function() {
 		updateOrbit(orbitElements);
-	}, 20);
+	})
 }
 
 //TODO: position moon + orbit seriously
@@ -130,6 +130,10 @@ function updateOrbit(elements) {
 	}
 
 	orbitOffset = (orbitOffset + orbitIncrement) % orbitMax;
+
+	window.requestAnimationFrame(function() {
+		updateOrbit(elements);
+	});
 }
 
 window.requestAnimationFrame = window.requestAnimationFrame
