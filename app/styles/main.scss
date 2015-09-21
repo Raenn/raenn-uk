@@ -326,11 +326,13 @@ main {
 					width: 100%;
 					padding: 5% 10%;
 					z-index: 5;
+					opacity: 0;
 
-					transition: top 0.6s ease-out;
+					transition: top 0.6s ease-out, opacity 0.6s ease-out;
 
 					&.show {
 						top: 0;
+						opacity: 1;
 					}
 
 					.cv-box {

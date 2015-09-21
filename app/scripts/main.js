@@ -104,7 +104,7 @@ function updateParallax(scrollY) {
 function updateOrbitCenter() {
 	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
 	 //slight shifts needed because of rotation
-	orbitCenterX = moonAttrs.left * 0.95 + (moonAttrs.width / 2);
+	orbitCenterX = moonAttrs.left * 0.945 + (moonAttrs.width / 2);
 	orbitCenterY =  moonAttrs.height / 2.2;
 
 	orbitXRadius = (moonAttrs.width / 2) * 0.75;
