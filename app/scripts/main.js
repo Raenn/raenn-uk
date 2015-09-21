@@ -48,7 +48,7 @@ function initStars(scenes) {
 
 	//make more stars if given a wider area
 	var sceneSize = scenes[0].node.getBoundingClientRect();
-	var starCount = (sceneSize.width * sceneSize.height) / 18000;
+	var starCount = (sceneSize.width * sceneSize.height) / 16000;
 
 	for(var i = 0; i < starCount; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);

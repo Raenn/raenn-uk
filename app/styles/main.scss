@@ -418,6 +418,48 @@ main {
 									opacity: 1;
 									top: 0;
 								}
+
+								ol.description {
+									text-align: left;
+
+									li {
+										list-style: none;
+										padding-bottom: 1em;
+									}
+								}
+							}
+						}
+
+						section.company-logo-box {
+							position: relative;
+							width: 40%;
+							min-width: 200px;
+							height: 35px;
+							border-radius: 15px;
+							margin-left: auto;
+							margin-right: auto;
+							overflow-y: hidden;
+
+							&.katchup {
+								background-color: #432449;
+							}
+
+							&.bt {
+								background-color: rgb(33, 68, 152);
+							}
+
+							&.bae {
+								background-color: rgb(229, 25, 55);
+
+								img {
+									height: 25px;
+									margin-top: 5px;
+								}
+							}
+
+							img {
+								height: 100%;
+								padding: 6px;
 							}
 						}
 					}
