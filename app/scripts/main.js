@@ -48,7 +48,7 @@ function initStars(scenes) {
 
 	//make more stars if given a wider area
 	var sceneSize = scenes[0].node.getBoundingClientRect();
-	var starCount = (sceneSize.width * sceneSize.height) / 16000;
+	var starCount = Math.pow((sceneSize.width * sceneSize.height), 0.8) / 600;
 
 	for(var i = 0; i < starCount; i++) {
 		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
@@ -103,11 +103,18 @@ function updateParallax(scrollY) {
 
 function updateOrbitCenter() {
 	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
-	 //slight shifts needed because of rotation
-	orbitCenterX = moonAttrs.left * 0.945 + (moonAttrs.width / 2);
-	orbitCenterY =  moonAttrs.height / 2.2;
 
-	orbitXRadius = (moonAttrs.width / 2) * 0.75;
+	if(window.innerWidth < 768) {
+		//on mobile, moon is BENEATH copy; Y position needs to be calculated differently
+		orbitCenterX = (moonAttrs.width / 2) -30;
+		orbitCenterY = moonAttrs.height * 1.4;
+	} else {
+		//slight shifts needed because of rotation
+		orbitCenterX = moonAttrs.left * 0.98 + (moonAttrs.width / 2) - 30;
+		orbitCenterY = moonAttrs.height / 2.2;
+	}
+
+	orbitXRadius = Math.min(280, (moonAttrs.width / 2) * 0.75);
 	orbitYRadius = orbitXRadius * 0.4;
 }
 

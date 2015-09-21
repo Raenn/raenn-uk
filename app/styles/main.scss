@@ -89,6 +89,10 @@ main {
 			animation-duration: 3s;
 			animation-delay: 2.5s;
 
+			@media(max-width: 767px) {
+				height: 350vh;
+			}
+
 			.stars {
 				position: absolute;
 				top: 0;
@@ -122,13 +126,24 @@ main {
 					margin-bottom: 0.2em;
 
 					animation-delay: 0.5s;
+
+					@media(max-width: 767px) {
+						font-size: 6em;
+						padding-top: 10%;
+					}
 				}
 
 				.ahoy-subheading {
 					font-weight: 300;
 					font-size: 1.8em;
+					padding-left: 20px;
+					padding-right: 20px;
 
 					animation-delay: 1.5s;
+
+					@media(max-width: 767px) {
+						font-size: 1.6em;
+					}
 
 					.cheesy-joke {
 						border-bottom: 1px dashed rgba(255,255,255,0.2);
@@ -147,6 +162,10 @@ main {
 
 					transition: opacity 0.4s ease-out;
 
+					@media(max-width: 767px) {
+						font-size: 4em;
+					}
+
 					&:not(.visible) {
 						opacity: 0 !important;
 						cursor: default;
@@ -156,6 +175,11 @@ main {
 
 			&.about {
 				overflow: hidden;
+
+				@media(max-width: 767px) {
+					height: 150vh;
+					padding: 10px;
+				}
 
 				.copy-vertical-wrapper,
 				.copy {
@@ -170,10 +194,19 @@ main {
 
 				.copy {
 					padding-left: 5%;
+
+					@media(max-width: 767px) {
+						padding-left: 0;
+					}
 				}
 
 				.copy-vertical-wrapper {
 					width: 50%;
+
+					@media(max-width: 767px) {
+						width: 100%;
+						height: 50%;
+					}
 				}
 
 				.moon-wrapper {
@@ -182,6 +215,11 @@ main {
 					width: 50%;
 					float: right;
 					position: relative;
+
+					@media(max-width: 767px) {
+						width: 100%;
+						height: 50%;
+					}
 
 					#moon {
 						width: 100%;
@@ -203,6 +241,10 @@ main {
 					position: absolute;
 					width: 75px;
 					transform: rotate(6deg);
+
+					@media(max-width: 767px) {
+						width: 60px;
+					}
 
 					&.japan {
 						padding-bottom: 14px;
@@ -232,6 +274,11 @@ main {
 						margin-left: auto;
 						margin-right: auto;
 						margin-bottom: 5%;
+
+						@media(max-width: 767px) {
+							padding-left: 10px;
+							padding-right: 10px;
+						}
 					}
 				}
 
@@ -287,6 +334,10 @@ main {
 						font-size: 40px;
 						border-bottom-width: 0px;
 
+						@media(max-width: 767px) {
+							font-size: 30px;
+						}
+
 						&:before {
 							vertical-align: middle;
 							color: rgba(white, 0.9);
@@ -312,6 +363,10 @@ main {
 
 					transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out;
 
+					@media(max-width: 767px) {
+						font-size: 20px;
+					}
+
 					&:hover {
 						padding: 9px 21px 11px 19px;
 						background-color: #5DAFB3;
@@ -330,6 +385,10 @@ main {
 
 					transition: top 0.6s ease-out, opacity 0.6s ease-out;
 
+					@media(max-width: 767px) {
+						padding: 2.5% 5%;
+					}
+
 					&.show {
 						top: 0;
 						opacity: 1;
@@ -344,6 +403,10 @@ main {
 						border-radius: 10px;
 						padding: 20px 5%;
 						color: $space-black;
+
+						@media(max-width: 767px) {
+							padding: 5px 5%;
+						}
 
 						.close {
 							position: absolute;
@@ -362,6 +425,10 @@ main {
 							margin-bottom: 0;
 							padding-top: 3%;
 							padding-bottom: 5px;
+
+							@media(max-width: 767px) {
+								font-size: 25px;
+							}
 						}
 
 						hr {
@@ -369,11 +436,19 @@ main {
 							margin-bottom: 2%;
 							color: rgba($link-hover-blue, 1);
 							border-width: 1px;
+
+							@media(max-width: 767px) {
+								margin-top: 0;
+							}
 						}
 
 						h3 {
 							margin-top: 0;
 							font-weight: 500;
+
+							@media(max-width: 767px) {
+								font-size: 17px;
+							}
 						}
 
 						ol.sections {
@@ -384,12 +459,20 @@ main {
 								list-style: none;
 								min-width: 120px;
 
+								@media(max-width: 767px) {
+									display: block;
+								}
+
 								a {
 									font-size: 20px;
 									cursor: pointer;
 									color: lighten($space-blue, 40%);
 									border-bottom: 0;
 									transition: all 0.5s ease-in-out;
+
+									@media(max-width: 767px) {
+										font-size: 18px;
+									}
 								}
 
 								&.active a {
@@ -401,6 +484,11 @@ main {
 
 						.cv-copy {
 							height: calc(100% - 240px);
+
+							@media(max-width: 767px) {
+								height: calc(100% - 186px);
+							}
+
 							position: relative;
 
 							.copy-section {
@@ -434,11 +522,19 @@ main {
 									li {
 										list-style: none;
 										padding-bottom: 1em;
+
+										@media(max-width: 767px) {
+											font-size: 15px;
+										}
 									}
 								}
 
 								p.key-skills {
 									font-size: 19px;
+
+									@media(max-width: 767px) {
+										font-size: 17px;
+									}
 								}
 							}
 						}
