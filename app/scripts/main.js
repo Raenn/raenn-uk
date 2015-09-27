@@ -10,6 +10,8 @@ var orbitYRadius = 80;
 var cvActive = false;
 var activeCVSection = 0;
 
+var starScenes = [];
+
 window.onresize = updateOrbitCenter;
 window.onload = initSpace;
 
@@ -23,7 +25,12 @@ function initSVGs() {
 	var starScene2 = Snap('#stars-mid');
 	var starScene3 = Snap('#stars-far');
 	var moonScene = Snap('#moon');
-	initStars([starScene1, starScene2, starScene3]);
+	//use less parallax layers if on mobile
+	starScenes = [starScene1, starScene2, starScene3];
+	if (isMobile()) {
+		starScenes.pop();
+	}
+	initStars(starScenes);
 	initMoon(moonScene);
 }
 
@@ -82,23 +89,16 @@ function initStars(scenes) {
 
 window.onscroll = function() {
 	var scroll = window.pageYOffset || document.body.scrollTop;
-	if(scroll !== 0)  {
-		document.getElementById('down-chevron').className =
-			document.getElementById('down-chevron').className.replace(' visible', '')
-	}
 	window.requestAnimationFrame(function() {
 		updateParallax(scroll);
 	})
 };
 
 function updateParallax(scrollY) {
-	var elements = document.getElementsByClassName('stars');
-	//can't forEach on a html collection :'(
-
-	for(var i = 0; i < elements.length; i++) {
-		var scrollMultiplier = elements[i].getAttribute('parallax-amount');
-		elements[i].style.top = -scrollY * scrollMultiplier + 'px';
-	}
+	starScenes.forEach(function(scene, index) {
+		var scrollMultiplier = scene.node.getAttribute('parallax-amount');
+		scene.node.style.top = -scrollY * scrollMultiplier + 'px';
+	})
 }
 
 function updateOrbitCenter() {
@@ -171,25 +171,6 @@ window.requestAnimationFrame = window.requestAnimationFrame
 	|| window.msRequestAnimationFrame
 	|| function(f){return setTimeout(f, 1000/60)} //fall back method, run roughly 60 times per second
 
-function scrollToAbout() {
-	var scrollSteps = 80;
-	var increment = (window.innerHeight - window.scrollY) / scrollSteps;
-	var i = 0;
-
-	// decelerating to zero velocity
-	function easeOutQuint(t) { return 1+(--t)*t*t*t*t };
-
-	function scroll() {
-		i += 1;
-		window.scrollTo(0, i * easeOutQuint(i / scrollSteps) * increment);
-		if (i < scrollSteps) {
-			window.requestAnimationFrame(scroll);
-		}
-	}
-
-	window.requestAnimationFrame(scroll);
-}
-
 function toggleCV() {
 	var cvBox = document.getElementById('cv-container');
 	if(cvActive) {
@@ -248,4 +229,9 @@ function calculateTransitionStateColour(original, increments, counter, maxCounte
 function sampleOneFrom(array) {
 	var index = Math.round(Math.random() * (array.length - 1));
 	return array[index];
+}
+
+function isMobile() {
+	var mobileRegex = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/;
+	return mobileRegex.test(window.navigator.userAgent);
 }

@@ -6,6 +6,8 @@
 
 $space-black: rgb(17,26,34);
 $space-blue: rgb(30,52,62);
+$space-blue-dark: rgb(21,45,62);
+$space-pink: rgb(135,94,123);
 
 $link-blue: #99CCFF;
 $link-hover-blue: #B8DBFF;
@@ -67,10 +69,10 @@ html, body {
 }
 
 main {
-	background: -webkit-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-	background: -o-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-	background: -moz-repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
-	background: repeating-linear-gradient(160deg, $space-black, $space-blue 50%, $space-black 100%);
+	background: -webkit-repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
+	background: -o-repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
+	background: -moz-repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
+	background: repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
 
 	.content {
 		z-index: 2;
@@ -94,6 +96,7 @@ main {
 			}
 
 			.stars {
+				-webkit-transform: translateZ(0);
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -241,6 +244,7 @@ main {
 					position: absolute;
 					width: 75px;
 					transform: rotate(6deg);
+					-webkit-transform: translateZ(0);
 
 					@media(max-width: 767px) {
 						width: 60px;
@@ -305,28 +309,28 @@ main {
 					&.twitter {
 						background-color: rgba(#00ACED, 0.15);
 						&:hover {
-							background-color: rgba(#00ACED, 0.5);
+							background-color: rgba(#00ACED, 0.9);
 						}
 					}
 
 					&.github {
 						background-color: rgba(59, 59, 59, 0.25);
 						&:hover {
-							background-color: rgba(59, 59, 59, 0.5);
+							background-color: rgba(70, 70, 70, 1);
 						}
 					}
 
 					&.linkedin {
 						background-color: rgba(0, 122, 181, 0.2);
 						&:hover {
-							background-color: rgba(0, 122, 181, 0.5);
+							background-color: rgba(0, 122, 181, 0.9);
 						}
 					}
 
 					&.email {
 						background-color: rgba(255, 50, 50, 0.2);
 						&:hover {
-							background-color: rgba(255, 50, 50, 0.5);
+							background-color: rgba(255, 50, 50, 0.9);
 						}
 					}
 
