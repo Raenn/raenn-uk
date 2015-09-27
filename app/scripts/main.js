@@ -171,25 +171,6 @@ window.requestAnimationFrame = window.requestAnimationFrame
 	|| window.msRequestAnimationFrame
 	|| function(f){return setTimeout(f, 1000/60)} //fall back method, run roughly 60 times per second
 
-function scrollToAbout() {
-	var scrollSteps = 80;
-	var increment = (window.innerHeight - window.scrollY) / scrollSteps;
-	var i = 0;
-
-	// decelerating to zero velocity
-	function easeOutQuint(t) { return 1+(--t)*t*t*t*t };
-
-	function scroll() {
-		i += 1;
-		window.scrollTo(0, i * easeOutQuint(i / scrollSteps) * increment);
-		if (i < scrollSteps) {
-			window.requestAnimationFrame(scroll);
-		}
-	}
-
-	window.requestAnimationFrame(scroll);
-}
-
 function toggleCV() {
 	var cvBox = document.getElementById('cv-container');
 	if(cvActive) {
