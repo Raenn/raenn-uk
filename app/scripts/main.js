@@ -10,6 +10,8 @@ var orbitYRadius = 80;
 var cvActive = false;
 var activeCVSection = 0;
 
+var starScenes = [];
+
 window.onresize = updateOrbitCenter;
 window.onload = initSpace;
 
@@ -23,7 +25,12 @@ function initSVGs() {
 	var starScene2 = Snap('#stars-mid');
 	var starScene3 = Snap('#stars-far');
 	var moonScene = Snap('#moon');
-	initStars([starScene1, starScene2, starScene3]);
+	//use less parallax layers if on mobile
+	starScenes = [starScene1, starScene2, starScene3];
+	if (isMobile()) {
+		starScenes.pop();
+	}
+	initStars(starScenes);
 	initMoon(moonScene);
 }
 
@@ -88,13 +95,10 @@ window.onscroll = function() {
 };
 
 function updateParallax(scrollY) {
-	var elements = document.getElementsByClassName('stars');
-	//can't forEach on a html collection :'(
-
-	for(var i = 0; i < elements.length; i++) {
-		var scrollMultiplier = elements[i].getAttribute('parallax-amount');
-		elements[i].style.top = -scrollY * scrollMultiplier + 'px';
-	}
+	starScenes.forEach(function(scene, index) {
+		var scrollMultiplier = scene.node.getAttribute('parallax-amount');
+		scene.node.style.top = -scrollY * scrollMultiplier + 'px';
+	})
 }
 
 function updateOrbitCenter() {
@@ -225,4 +229,9 @@ function calculateTransitionStateColour(original, increments, counter, maxCounte
 function sampleOneFrom(array) {
 	var index = Math.round(Math.random() * (array.length - 1));
 	return array[index];
+}
+
+function isMobile() {
+	var mobileRegex = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/;
+	return mobileRegex.test(window.navigator.userAgent);
 }
