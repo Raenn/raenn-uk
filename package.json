@@ -3,6 +3,7 @@
   "engines": {
     "node": ">=0.12.0"
   },
+  "main": "express.js",
   "devDependencies": {
     "babel-core": "^5.8.24",
     "browser-sync": "^2.2.1",
@@ -38,5 +39,8 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "express": "~4.13.3"
   }
 }
