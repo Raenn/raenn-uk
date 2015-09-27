@@ -82,10 +82,6 @@ function initStars(scenes) {
 
 window.onscroll = function() {
 	var scroll = window.pageYOffset || document.body.scrollTop;
-	if(scroll !== 0)  {
-		document.getElementById('down-chevron').className =
-			document.getElementById('down-chevron').className.replace(' visible', '')
-	}
 	window.requestAnimationFrame(function() {
 		updateParallax(scroll);
 	})
