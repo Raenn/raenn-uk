@@ -90,20 +90,18 @@ main {
 			height: 300vh;
 			width: 100%;
 
-			// animation-duration: 3s;
-			// animation-delay: 2.5s;
+			animation-duration: 3s;
+			animation-delay: 2.5s;
 
-			// @media(max-width: 767px) {
-			// 	height: 350vh;
-			// }
+			@media(max-width: 767px) {
+				height: 350vh;
+			}
 
 			.stars {
-				// -webkit-transform: translateZ(0);
+				-webkit-transform: translateZ(0);
 				position: absolute;
 				top: 0;
 				left: 0;
-				// height: 130%;
-				// width: 100%;
 			}
 		}
 
