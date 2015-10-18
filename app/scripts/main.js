@@ -12,9 +12,44 @@ var activeCVSection = 0;
 
 var starScenes = [];
 
-window.onresize = updateOrbitCenter;
-window.onload = initSpace;
+// window.onresize = updateOrbitCenter;
+// window.onload = initSpace;
 
+window.onload = initCanvasSpace;
+window.onresize = resizeCanvases;
+var starCanvases;
+var starContexts;
+
+function initCanvasSpace() {
+	starCanvases = document.getElementsByTagName('canvas');
+	starContexts = [].slice.call(starCanvases).map(function(canvas) {
+		return canvas.getContext('2d');
+	})
+
+	resizeCanvases();
+
+	drawStars();
+}
+
+function resizeCanvases() {
+	for(var i = 0; i < starCanvases.length; i++) {
+		starCanvases[i].width = document.body.clientWidth;
+		starCanvases[i].height = 3 * document.body.clientHeight;
+	};
+}
+
+function drawStars() {
+	var canvas = starCanvases[0],
+		context = canvas.getContext('2d');
+
+	context.fillStyle = "yellow";
+	context.strokeStyle = "green";
+
+	context.arc(200, 200, 50, 0, 2 * Math.PI, true);
+	context.fill();
+}
+
+/*
 function initSpace() {
 	initSVGs();
 	initOrbit();
@@ -164,6 +199,7 @@ function updateOrbit(elements) {
 		updateOrbit(elements);
 	});
 }
+*/
 
 window.requestAnimationFrame = window.requestAnimationFrame
 	|| window.mozRequestAnimationFrame
