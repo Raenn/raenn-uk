@@ -377,212 +377,214 @@ main {
 						box-shadow: 2px 3px rgba(80,80,80,0.5)
 					}
 				}
+			}
+		}
 
-				#cv-container {
-					position: fixed;
-					top: 100%;
-					height: 100%;
-					width: 100%;
-					padding: 5% 10%;
-					z-index: 5;
-					opacity: 0;
+		#cv-container {
+			position: fixed;
+			top: 100%;
+			height: 100%;
+			width: 100%;
+			padding: 5% 10%;
+			z-index: 5;
+			opacity: 0;
 
-					overflow: hidden;
+			overflow: hidden;
 
-					transition: top 0.6s ease-out, opacity 0.6s ease-out;
+			transition: top 0.6s ease-out, opacity 0.6s ease-out;
+
+			@media(max-width: 767px) {
+				padding: 2.5% 5%;
+			}
+
+			&.show {
+				top: 0;
+				opacity: 1;
+			}
+
+			.cv-box {
+				height: 100%;
+				max-height: 100%;
+				position: relative;
+				text-align: center;
+				background-color: #E0ECFE;
+				border-radius: 10px;
+				padding: 20px 5%;
+				color: $space-black;
+
+				@media(max-width: 767px) {
+					padding: 5px 5%;
+				}
+
+				.close {
+					position: absolute;
+					top: 20px;
+					right: 20px;
+					cursor: pointer;
+					font-size: 20px;
+
+					&:before {
+						color: rgba($space-blue, 0.9);
+					}
+				}
+
+				h1 {
+					margin-top: 0;
+					margin-bottom: 0;
+					padding-top: 3%;
+					padding-bottom: 5px;
+					font-size: 40px;
+					font-weight: 100;
 
 					@media(max-width: 767px) {
-						padding: 2.5% 5%;
+						font-size: 25px;
 					}
+				}
 
-					&.show {
-						top: 0;
-						opacity: 1;
+				hr {
+					width: 150px;
+					margin-bottom: 2%;
+					color: rgba($link-hover-blue, 1);
+					border-width: 1px;
+
+					@media(max-width: 767px) {
+						margin-top: 0;
 					}
+				}
 
-					.cv-box {
-						height: 100%;
-						max-height: 100%;
-						position: relative;
-						text-align: center;
-						background-color: #E0ECFE;
-						border-radius: 10px;
-						padding: 20px 5%;
-						color: $space-black;
+				h3 {
+					margin-top: 0;
+					font-weight: 500;
+
+					@media(max-width: 767px) {
+						font-size: 17px;
+					}
+				}
+
+				ol.sections {
+					padding: 0;
+
+					li {
+						display: inline-block;
+						list-style: none;
+						min-width: 120px;
 
 						@media(max-width: 767px) {
-							padding: 5px 5%;
+							display: block;
 						}
 
-						.close {
-							position: absolute;
-							top: 20px;
-							right: 20px;
-							cursor: pointer;
+						a {
 							font-size: 20px;
+							cursor: pointer;
+							color: lighten($space-blue, 40%);
+							border-bottom: 0;
+							transition: all 0.5s ease-in-out;
 
-							&:before {
-								color: rgba($space-blue, 0.9);
+							@media(max-width: 767px) {
+								font-size: 18px;
 							}
 						}
 
-						h1 {
-							margin-top: 0;
+						&.active a {
+							color: $space-black;
+							border-bottom: 1px solid lighten($space-blue, 30%);
+						}
+					}
+				}
+
+				.cv-copy {
+					height: calc(100% - 240px);
+
+					@media(max-width: 767px) {
+						height: calc(100% - 186px);
+					}
+
+					position: relative;
+
+					.copy-section {
+						// position: absolute;
+						height: 0;
+						max-height: 100%;
+						opacity: 0;
+						top: 100%;
+						overflow-y: auto;
+
+						transition: opacity 0.4s ease-in-out, height 0.4s ease-in-out;
+
+						&.active {
+							height: auto;
+							opacity: 1;
+							top: 0;
+						}
+
+						.tagline {
 							margin-bottom: 0;
-							padding-top: 3%;
-							padding-bottom: 5px;
+							margin-top: 5px;
+						}
 
-							@media(max-width: 767px) {
-								font-size: 25px;
+						ol.description {
+							padding: 0 10px;
+
+							&:not(.key-skills) {
+								text-align: left;
+							}
+
+							li {
+								list-style: none;
+								padding-bottom: 1em;
+
+								@media(max-width: 767px) {
+									font-size: 15px;
+								}
 							}
 						}
 
-						hr {
-							width: 150px;
-							margin-bottom: 2%;
-							color: rgba($link-hover-blue, 1);
-							border-width: 1px;
-
-							@media(max-width: 767px) {
-								margin-top: 0;
-							}
-						}
-
-						h3 {
-							margin-top: 0;
-							font-weight: 500;
+						p.key-skills {
+							font-size: 19px;
 
 							@media(max-width: 767px) {
 								font-size: 17px;
 							}
 						}
+					}
+				}
 
-						ol.sections {
-							padding: 0;
+				section.company-logo-box {
+					position: relative;
+					width: 40%;
+					min-width: 200px;
+					height: 35px;
+					border-radius: 15px;
+					margin-left: auto;
+					margin-right: auto;
+					margin-top: 20px;
+					margin-bottom: 15px;
+					overflow-y: hidden;
 
-							li {
-								display: inline-block;
-								list-style: none;
-								min-width: 120px;
+					&.katchup {
+						background-color: #432449;
+					}
 
-								@media(max-width: 767px) {
-									display: block;
-								}
+					&.bt {
+						background-color: rgb(33, 68, 152);
+					}
 
-								a {
-									font-size: 20px;
-									cursor: pointer;
-									color: lighten($space-blue, 40%);
-									border-bottom: 0;
-									transition: all 0.5s ease-in-out;
+					&.bae {
+						background-color: rgb(229, 25, 55);
 
-									@media(max-width: 767px) {
-										font-size: 18px;
-									}
-								}
-
-								&.active a {
-									color: $space-black;
-									border-bottom: 1px solid lighten($space-blue, 30%);
-								}
-							}
+						img {
+							height: 25px;
+							margin-top: 5px;
 						}
+					}
 
-						.cv-copy {
-							height: calc(100% - 240px);
+					&.uni {
+						background-color: rgb(9, 94, 45);
+					}
 
-							@media(max-width: 767px) {
-								height: calc(100% - 186px);
-							}
-
-							position: relative;
-
-							.copy-section {
-								// position: absolute;
-								height: 0;
-								max-height: 100%;
-								opacity: 0;
-								top: 100%;
-								overflow-y: auto;
-
-								transition: opacity 0.4s ease-in-out, height 0.4s ease-in-out;
-
-								&.active {
-									height: auto;
-									opacity: 1;
-									top: 0;
-								}
-
-								.tagline {
-									margin-bottom: 0;
-									margin-top: 5px;
-								}
-
-								ol.description {
-									padding: 0 10px;
-
-									&:not(.key-skills) {
-										text-align: left;
-									}
-
-									li {
-										list-style: none;
-										padding-bottom: 1em;
-
-										@media(max-width: 767px) {
-											font-size: 15px;
-										}
-									}
-								}
-
-								p.key-skills {
-									font-size: 19px;
-
-									@media(max-width: 767px) {
-										font-size: 17px;
-									}
-								}
-							}
-						}
-
-						section.company-logo-box {
-							position: relative;
-							width: 40%;
-							min-width: 200px;
-							height: 35px;
-							border-radius: 15px;
-							margin-left: auto;
-							margin-right: auto;
-							margin-top: 20px;
-							margin-bottom: 15px;
-							overflow-y: hidden;
-
-							&.katchup {
-								background-color: #432449;
-							}
-
-							&.bt {
-								background-color: rgb(33, 68, 152);
-							}
-
-							&.bae {
-								background-color: rgb(229, 25, 55);
-
-								img {
-									height: 25px;
-									margin-top: 5px;
-								}
-							}
-
-							&.uni {
-								background-color: rgb(9, 94, 45);
-							}
-
-							img {
-								height: 100%;
-								padding: 6px;
-							}
-						}
+					img {
+						height: 100%;
+						padding: 6px;
 					}
 				}
 			}
