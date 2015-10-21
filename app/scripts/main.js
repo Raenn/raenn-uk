@@ -84,17 +84,10 @@ function drawStars(scrollY) {
 	//clear canvas
 	context.clearRect(0, 0, starCanvas.width, starCanvas.height)
 
-	var gradient = context.createRadialGradient(0, 0, minRadius * 0.1,
-												0, 0, minRadius * 0.9);
-
-	gradient.addColorStop(0, 'rgba(255,255,255,0.8)');
-	gradient.addColorStop(0.75, 'rgba(255,255,255,0.2)');
-	context.fillStyle = 'white';//gradient;
-
 	if(!starLocations) { return; }
 
-	//translate to give a parallax effect
 	context.save();
+	context.fillStyle = 'white';
 	var parallaxAmount = -parallaxMultiplier * scrollY;
 
 	starLocations.forEach(function(star, index) {
