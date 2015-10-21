@@ -17,88 +17,110 @@ var starScenes = [];
 
 window.onload = initCanvasSpace;
 window.onresize = debounce(resizeCanvases, 200);
-var starCanvases;
-var minRadius = 2.5;
-var starNum = 400;
-var starsPerCanvas;
+
+var ticking = false;
+
+window.onscroll = handleScroll;
+window.ontouchmove = handleScroll;
+
+function handleScroll(event) {
+	if(!ticking) {
+		ticking = true;
+		requestAnimationFrame(function() {
+			drawStars(window.pageYOffset)
+		});
+	}
+}
+
+var starCanvas;
+var minRadius = 1;
+var starNum = 1200;
 var starLocations = [];
+var parallaxMultiplier = 0.3;
 
 function initCanvasSpace() {
-	starCanvases = document.getElementsByTagName('canvas');
-	starsPerCanvas = starNum / starCanvases.length;
+	starCanvas = document.getElementById('star-canvas');
 
 	initCanvasSizes();
 	generateStars();
 };
 
 function resizeCanvases() {
-	if (!starCanvases) { return; }
-	var widthBefore = starCanvases[0].width;
+	if (!starCanvas) { return; }
+	var widthBefore = starCanvas.width;
 	var widthAfter = document.body.clientWidth;
 
 	if (widthAfter > widthBefore) {
 		//increase the scale of the canvas; quicker than a whole redraw
-		[].slice.call(starCanvases).forEach(function(canvas) {
-			var scaleFactor = widthAfter / widthBefore;
-			canvas.style.width = canvas.width * scaleFactor + 'px';
-			canvas.style.height = canvas.height * scaleFactor + 'px';
-		});
+		var scaleFactor = widthAfter / widthBefore;
+		starCanvas.style.width = starCanvas.width * scaleFactor + 'px';
+		starCanvas.style.height = starCanvas.height * scaleFactor + 'px';
 		//TODO: stop scaling, and instead generate (and maybe remove?) stars outside of viewport?
 		//probably too slow, but worth trying
 	}
 };
 
 function initCanvasSizes() {
-	for(var i = 0; i < starCanvases.length; i++) {
-		starCanvases[i].width = document.body.clientWidth;
-		starCanvases[i].height = 3 * document.body.clientHeight;
-		drawStars();
-	};
+	starCanvas.width = document.body.clientWidth;
+	starCanvas.height = 3 * document.body.clientHeight;
+	drawStars(window.pageYOffset);
 }
 
 function generateStars() {
-	[].slice.call(starCanvases).forEach(function(canvas, index) {
-		starLocations.push([]);
+	for(var i = 0; i < starNum; i++) {
+		var x = Math.round(Math.random() * starCanvas.width);
+		var y = Math.round(Math.random() * starCanvas.height * (1 + 2 * parallaxMultiplier));
+		var scale = 0.5 + Math.random();
 
-		for(var i = 0; i < starsPerCanvas; i++) {
-			var x = Math.round(Math.random() * canvas.width);
-			var y = Math.round(Math.random() * canvas.height);
-			var scale = 0.5 + Math.random();
-
-			starLocations[index].push({x: x, y: y, scale: scale});
-		}
-	});
-	drawStars();
+		starLocations.push({x: x, y: y, scale: scale});
+	}
+	drawStars(window.pageYOffset);
 }
 
-function drawStars() {
-	[].slice.call(starCanvases).forEach(function(canvas, index) {
+function drawStars(scrollY) {
+	if(!starCanvas) { return; }
 
-		var context = canvas.getContext('2d');
-		var gradient = context.createRadialGradient(0, 0, minRadius * 0.1,
-													0, 0, minRadius * 0.9);
+	var context = starCanvas.getContext('2d');
+	//clear canvas
+	context.clearRect(0, 0, starCanvas.width, starCanvas.height)
 
-		gradient.addColorStop(0, 'rgba(255,255,255,0.8)');
-		gradient.addColorStop(0.75, 'rgba(255,255,255,0.2)');
+	var gradient = context.createRadialGradient(0, 0, minRadius * 0.1,
+												0, 0, minRadius * 0.9);
 
-		var stars = starLocations[index];
-		if(!stars) { return; }
+	gradient.addColorStop(0, 'rgba(255,255,255,0.8)');
+	gradient.addColorStop(0.75, 'rgba(255,255,255,0.2)');
+	context.fillStyle = 'white';//gradient;
 
-		stars.forEach(function(star) {
-			context.save();
-			//translate to star position so gradient center is correct
-			context.translate(star.x, star.y);
-			context.fillStyle = gradient;
-			context.beginPath();
-			context.arc(0, 0, minRadius * star.scale, 0, 2 * Math.PI, true);
-			//scale gradient to match star size
-			context.scale(star.scale, star.scale);
-			context.fill();
-			context.closePath();
+	if(!starLocations) { return; }
 
-			context.restore();
-		});
+	//translate to give a parallax effect
+	context.save();
+	var parallaxAmount = -parallaxMultiplier * scrollY;
+
+	starLocations.forEach(function(star, index) {
+		//start a new parallax layer every so often
+		if(index % 200 == 0) {
+			context.translate(0, parallaxAmount)
+		}
+
+		context.save();
+		//translate to star position so gradient center is correct
+		context.translate(star.x, star.y);
+
+		context.beginPath();
+		context.arc(0, 0, minRadius * star.scale, 0, 2 * Math.PI, true);
+		//scale gradient to match star size
+		context.scale(star.scale, star.scale);
+		context.fill();
+		context.closePath();
+
+		context.restore();
 	});
+
+	context.restore();
+
+	//we're ready to do more parallax on next scroll
+	ticking = false;
 };
 
 function debounce(func, wait, immediate) {

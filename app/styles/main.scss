@@ -80,29 +80,15 @@ main {
 		background: -moz-repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
 		background: repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
 
-		.stars-wrapper {
+		#star-canvas {
 			position: absolute;
 			top: 0;
 			left: 0;
 			z-index: 1;
-			overflow-y: hidden;
-
-			height: 300vh;
-			width: 100%;
+			overflow: hidden;
 
 			animation-duration: 3s;
 			animation-delay: 2.5s;
-
-			@media(max-width: 767px) {
-				height: 350vh;
-			}
-
-			.stars {
-				-webkit-transform: translateZ(0);
-				position: absolute;
-				top: 0;
-				left: 0;
-			}
 		}
 
 		.panel {
