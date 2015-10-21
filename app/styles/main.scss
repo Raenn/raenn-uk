@@ -81,7 +81,7 @@ main {
 		background: repeating-linear-gradient(180deg, $space-black, $space-blue 30%, $space-blue-dark 80%, $space-pink 100%);
 
 		#star-canvas {
-			position: absolute;
+			position: fixed;
 			top: 0;
 			left: 0;
 			z-index: 1;

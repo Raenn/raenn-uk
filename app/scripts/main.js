@@ -33,10 +33,10 @@ function handleScroll(event) {
 }
 
 var starCanvas;
-var minRadius = 1;
-var starNum = 1200;
+var minRadius = 1.5;
+var starNum = 1000;
 var starLocations = [];
-var parallaxMultiplier = 0.3;
+var parallaxMultiplier = 1.0001;
 
 function initCanvasSpace() {
 	starCanvas = document.getElementById('star-canvas');
@@ -51,26 +51,24 @@ function resizeCanvases() {
 	var widthAfter = document.body.clientWidth;
 
 	if (widthAfter > widthBefore) {
-		//increase the scale of the canvas; quicker than a whole redraw
+		//increase the scale of the canvas; quicker than a whole redraw and preserves element recycling logic
 		var scaleFactor = widthAfter / widthBefore;
 		starCanvas.style.width = starCanvas.width * scaleFactor + 'px';
-		starCanvas.style.height = starCanvas.height * scaleFactor + 'px';
-		//TODO: stop scaling, and instead generate (and maybe remove?) stars outside of viewport?
-		//probably too slow, but worth trying
+		starCanvas.style.height = (starCanvas.height + 60) * scaleFactor + 'px';
 	}
 };
 
 function initCanvasSizes() {
 	starCanvas.width = document.body.clientWidth;
-	starCanvas.height = 3 * document.body.clientHeight;
+	starCanvas.height = document.body.clientHeight + 60; //extra 60 avoids URL bar issues on mobile
 	drawStars(window.pageYOffset);
 }
 
 function generateStars() {
 	for(var i = 0; i < starNum; i++) {
 		var x = Math.round(Math.random() * starCanvas.width);
-		var y = Math.round(Math.random() * starCanvas.height * (1 + 2 * parallaxMultiplier));
-		var scale = 0.5 + Math.random();
+		var y = Math.round(Math.random() * starCanvas.height);
+		var scale = 0.8 + 0.2 * Math.random();
 
 		starLocations.push({x: x, y: y, scale: scale});
 	}
@@ -88,17 +86,26 @@ function drawStars(scrollY) {
 
 	context.save();
 	context.fillStyle = 'white';
-	var parallaxAmount = -parallaxMultiplier * scrollY;
+	var parallaxStep = -parallaxMultiplier * scrollY;
+	var parallaxAmount = 0;
 
 	starLocations.forEach(function(star, index) {
 		//start a new parallax layer every so often
-		if(index % 200 == 0) {
-			context.translate(0, parallaxAmount)
+		if(index % 100 == 0) {
+			parallaxAmount += parallaxStep;
+			context.translate(0, parallaxStep);
 		}
 
 		context.save();
+
+		//reuse elements that go above top of screen
+		var yPos = star.y;
+		while (yPos < -parallaxAmount) {
+			yPos += starCanvas.height;
+		}
+
 		//translate to star position so gradient center is correct
-		context.translate(star.x, star.y);
+		context.translate(star.x, yPos);
 
 		context.beginPath();
 		context.arc(0, 0, minRadius * star.scale, 0, 2 * Math.PI, true);
