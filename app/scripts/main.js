@@ -36,7 +36,7 @@ var starCanvas;
 var minRadius = 1.5;
 var starNum = 1000;
 var starLocations = [];
-var parallaxMultiplier = 1.0001;
+var parallaxMultiplier = 0.6;
 
 function initCanvasSpace() {
 	starCanvas = document.getElementById('star-canvas');
@@ -85,7 +85,7 @@ function drawStars(scrollY) {
 	if(!starLocations) { return; }
 
 	context.save();
-	context.fillStyle = 'white';
+	context.fillStyle = '#E6E6E6';
 	var parallaxStep = -parallaxMultiplier * scrollY;
 	var parallaxAmount = 0;
 
