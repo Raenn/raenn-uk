@@ -1,25 +1,21 @@
 //loops between 0 and 2*Math.PI
-var orbitOffset = 0;
-var orbitIncrement = Math.PI / 512;
-var orbitMax = 2 * Math.PI;
-var orbitCenterX = 0;
-var orbitCenterY = 0;
-var orbitXRadius = 200;
-var orbitYRadius = 80;
+let orbitOffset = 0;
+let orbitIncrement = Math.PI / 512;
+const orbitMax = 2 * Math.PI;
 
-var cvActive = false;
-var activeCVSection = 0;
+let orbitCenterX = 0;
+let orbitCenterY = 0;
+let orbitXRadius = 200;
+let orbitYRadius = 80;
 
-var starScenes = [];
+let cvActive = false;
+let activeCVSection = 0;
 
-// window.onresize = updateOrbitCenter;
-// window.onload = initSpace;
+let starScenes = [];
+let ticking = false;
 
-window.onload = initCanvasSpace;
+window.onload = init;
 window.onresize = debounce(resizeCanvases, 200);
-
-var ticking = false;
-
 window.onscroll = handleScroll;
 window.ontouchmove = handleScroll;
 
@@ -33,12 +29,16 @@ function handleScroll(event) {
 }
 
 var starCanvas;
-var minRadius = 1.5;
+const minRadius = 1.5;
+const parallaxMultiplier = 0.6;
 var starNum = 1000;
 var starLocations = [];
-var parallaxMultiplier = 0.6;
 
-function initCanvasSpace() {
+function init() {
+	initStarCanvas();
+}
+
+function initStarCanvas() {
 	starCanvas = document.getElementById('star-canvas');
 
 	initCanvasSizes();
@@ -46,13 +46,14 @@ function initCanvasSpace() {
 };
 
 function resizeCanvases() {
+	//TODO: resize moon canvas too
 	if (!starCanvas) { return; }
-	var widthBefore = starCanvas.width;
-	var widthAfter = document.body.clientWidth;
+	const widthBefore = starCanvas.width;
+	const widthAfter = document.body.clientWidth;
 
 	if (widthAfter > widthBefore) {
 		//increase the scale of the canvas; quicker than a whole redraw and preserves element recycling logic
-		var scaleFactor = widthAfter / widthBefore;
+		let scaleFactor = widthAfter / widthBefore;
 		starCanvas.style.width = `${starCanvas.width * scaleFactor}px`;
 		starCanvas.style.height = `${(starCanvas.height + 60) * scaleFactor}px`;
 	}
@@ -66,9 +67,9 @@ function initCanvasSizes() {
 
 function generateStars() {
 	for(var i = 0; i < starNum; i++) {
-		var x = Math.round(Math.random() * starCanvas.width);
-		var y = Math.round(Math.random() * starCanvas.height);
-		var scale = 0.8 + 0.2 * Math.random();
+		let x = Math.round(Math.random() * starCanvas.width);
+		let y = Math.round(Math.random() * starCanvas.height);
+		let scale = 0.8 + 0.2 * Math.random();
 
 		starLocations.push({x: x, y: y, scale: scale});
 	}
@@ -78,7 +79,7 @@ function generateStars() {
 function drawStars(scrollY) {
 	if(!starCanvas) { return; }
 
-	var context = starCanvas.getContext('2d');
+	const context = starCanvas.getContext('2d');
 	//clear canvas
 	context.clearRect(0, 0, starCanvas.width, starCanvas.height)
 
@@ -147,20 +148,6 @@ function initSpace() {
 	initOrbit();
 }
 
-function initSVGs() {
-	var starScene1 = Snap('#stars-near');
-	var starScene2 = Snap('#stars-mid');
-	var starScene3 = Snap('#stars-far');
-	var moonScene = Snap('#moon');
-	//use less parallax layers if on mobile
-	starScenes = [starScene1, starScene2, starScene3];
-	if (isMobile()) {
-		starScenes.pop();
-	}
-	initStars(starScenes);
-	initMoon(moonScene);
-}
-
 function initMoon(scene) {
 	//TODO: figure out how to preserve aspect ratio when scaling with snap
 	var cX = 0;
@@ -169,63 +156,6 @@ function initMoon(scene) {
 
 	var moon = scene.circle('50%', '50%', '20%');
 	moon.attr({'fill': 'r(0.75,-0.25,2.5)-#FF9D5C-#FFCC99:20-#FF8B6F:35-#FFCC99:42-#FFA375:53'});
-}
-
-function initStars(scenes) {
-	var STAR_HOVER_MILLIS = 200;
-
-	var starWidth = 2.2;
-
-	var fillTemplate = 'r(0.5, 0.5, 0.5)rgba({{fillValue}},20):0-rgba({{fillValue}},10):20-rgba({{fillValue}},0):80';
-	var whiteFillValue = '255,255,255';
-	var whiteFill = fillTemplate.replace(/\{\{fillValue\}\}/g, whiteFillValue);
-
-	//make more stars if given a wider area
-	var sceneSize = scenes[0].node.getBoundingClientRect();
-	var starCount = Math.pow((sceneSize.width * sceneSize.height), 0.8) / 600;
-
-	for(var i = 0; i < starCount; i++) {
-		var thisStarWidth = getRandomishInt(starWidth, starWidth * 4);
-
-		var scene = scenes[i % scenes.length];
-
-		var bigCircle = scene.circle(
-			Math.random() * 100 + '%',
-			Math.random() * 100 + '%',
-			thisStarWidth
-		);
-
-		bigCircle.attr({
-			fill: whiteFill,
-			strokeWidth: 0
-		});
-
-		//store what to revert to post-hover
-		bigCircle.originalWidth = thisStarWidth;
-
-		bigCircle.hover(
-			function() {
-				this.animate({r: this.originalWidth * 2.5}, 500)
-			},
-			function() {
-				this.animate({r: this.originalWidth}, 1500);
-			}
-		);
-	};
-}
-
-window.onscroll = function() {
-	var scroll = window.pageYOffset || document.body.scrollTop;
-	window.requestAnimationFrame(function() {
-		updateParallax(scroll);
-	})
-};
-
-function updateParallax(scrollY) {
-	starScenes.forEach(function(scene, index) {
-		var scrollMultiplier = scene.node.getAttribute('parallax-amount');
-		scene.node.style.top = -scrollY * scrollMultiplier + 'px';
-	})
 }
 
 function updateOrbitCenter() {
@@ -316,48 +246,17 @@ function setActiveCVSection(index) {
 		//wat r u doin
 		return;
 	}
-	cvSections[activeCVSection].className = cvSections[activeCVSection].className.replace(/\s?active/, '')
-	cvSections[index].className += ' active'
-	copySections[activeCVSection].className = copySections[activeCVSection].className.replace(/\s?active/, '')
-	copySections[index].className += ' active'
-	activeCVSection = index;
-}
 
-//more likely to be in the middle (think rolling two dice) - bit hacky, formula needs improvement
-function getRandomishInt(min, max) {
-	return Math.floor(Math.random() / 2 * (max - min) + Math.random() / 2 * (max - min)) + min;
-}
-
-function calculateArrayIncrements(original, destination, steps) {
-	return [
-		( destination[0] - original[0] ) / steps,
-		( destination[1] - original[1] ) / steps,
-		( destination[2] - original[2] ) / steps,
-	];
-}
-
-
-function calculateTransitionStateColour(original, increments, counter, maxCounter) {
-	var offset = 0;
-	//if in first half, count from 0 -> halfway;
-	//if in second half, count backwards halfway -> 0;
-	if(counter < maxCounter / 2) {
-		offset = counter;
-	} else {
-		offset = maxCounter - counter;
+	let setActiveSection = (elements, activeIndex, newIndex) => {
+		elements[activeIndex].className = elements[activeIndex].className.replace(/\s?active/, '')
+		elements[newIndex].className += ' active'
 	}
 
-	return [
-		Math.round(parseInt(original[0]) + offset * increments[0]),
-		Math.round(parseInt(original[1]) + offset * increments[1]),
-		Math.round(parseInt(original[2]) + offset * increments[2])
-	];
-}
+	setActiveSection(cvSections, activeCVSection, index);
+	setActiveSection(copySections, activeCVSection, index);
 
-function sampleOneFrom(array) {
-	var index = Math.round(Math.random() * (array.length - 1));
-	return array[index];
-}
+	activeCVSection = index;
+};
 
 function isMobile() {
 	var mobileRegex = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/;
