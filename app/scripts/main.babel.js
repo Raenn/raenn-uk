@@ -27,7 +27,7 @@ function handleScroll(event) {
 
 let starCanvas, moonCanvas;
 const minStarRadius = 1.5;
-const parallaxMultiplier = 0.6;
+const parallaxMultiplier = 0.5;
 let starNum = 1000;
 let starLocations = [];
 let ticking = false;
@@ -55,6 +55,9 @@ function initStarCanvas() {
 	starCanvas = document.getElementById('star-canvas');
 	starCanvas.width = document.body.clientWidth;
 	starCanvas.height = document.body.clientHeight + 60; //extra 60 avoids URL bar issues on mobile
+
+	//aim for 8 stars per 10000px² (i.e. 100x100 square)
+	starNum = Math.ceil((starCanvas.width * starCanvas.height) / 1250);
 
 	generateStars();
 	drawStars(window.pageYOffset);
@@ -101,7 +104,7 @@ function drawStars(scrollY) {
 
 	starLocations.forEach( (star, index) => {
 		//start a new parallax layer every so often
-		if(index % 100 == 0) {
+		if(index % 75 == 0) {
 			parallaxAmount += parallaxStep;
 			context.translate(0, parallaxStep);
 		}
