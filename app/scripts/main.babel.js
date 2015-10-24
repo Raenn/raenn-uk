@@ -32,6 +32,20 @@ let starNum = 1000;
 let starLocations = [];
 let ticking = false;
 
+const interests = [
+	'images/japan.png',
+	'images/js.png',
+	'images/origami.png',
+	'images/ruby.png',
+	'images/steam.png',
+	'images/coffee.png',
+	'images/stormtrooper.png',
+	'images/android.png'
+];
+//will be used to store the above images once loaded
+const interestImages = [];
+const interestSteps = 2 * Math.PI / interests.length;
+
 function init() {
 	initStarCanvas();
 	initMoonCanvas();
@@ -120,24 +134,45 @@ function initMoonCanvas() {
 	//TODO: actual calculation
 	moonCanvas.width = 500;
 	moonCanvas.height = 500;
-	drawMoon();
+
+	let imagePromises = [];
+
+	interests.forEach((interest, index) => {
+		let img = new Image();
+		interestImages.push(img);
+		let imagePromise = new Promise((resolve, reject) => {
+			img.addEventListener('load', () => {
+				resolve();
+			});
+			img.src = interest;
+		});
+		imagePromises.push(imagePromise);
+	});
+
+	Promise.all(imagePromises).then(drawMoon)
 };
+
+var offset = 0;
 
 function drawMoon() {
 	const context = moonCanvas.getContext('2d');
 	//clear canvas
-	context.clearRect(0, 0, starCanvas.width, starCanvas.height)
+	context.clearRect(0, 0, moonCanvas.width, moonCanvas.height)
 
 	//TODO: actual calculation
 	let orbitCenterX = 250;
 	let orbitCenterY = 250;
 	let moonRadius = 100;
 
+	let orbitXRadius = 2 * moonRadius;
+	let orbitYRadius = 0.5 * moonRadius;
+	let orbitYOffset = -0.1 * moonRadius;
+
 	let gradient = generateMoonGradient(context, moonRadius);
 
 	//first draw moon
 	context.save();
-		context.translate(orbitCenterX + moonRadius, orbitCenterY + moonRadius)
+		context.translate(orbitCenterX, orbitCenterY)
 		context.beginPath();
 		context.fillStyle = gradient;
 		context.arc(0, 0, moonRadius, 0, Math.PI*2, true);
@@ -145,6 +180,32 @@ function drawMoon() {
 		context.translate( moonRadius * 0.35, -moonRadius * 1.1);
 		context.fill();
 	context.restore();
+
+	//now draw interest icons - capped at 100px
+	const iconSize = Math.min(moonRadius * 0.7, 100);
+
+	context.save();
+	context.translate(orbitCenterX, orbitCenterY + orbitYOffset)
+	context.rotate(20 * Math.PI / 180)
+
+	interestImages.forEach((img, index) => {
+		let x = orbitXRadius * Math.cos(interestSteps * index + orbitOffset);
+		let y = orbitYRadius * Math.sin(interestSteps * index + orbitOffset);
+		let aspectRatio = img.naturalWidth / img.naturalHeight;
+
+		context.save();
+		context.globalCompositeOperation = (y < 0) ? 'destination-over' : 'source-over';
+		context.translate(x, y);
+		context.rotate(-10 * Math.PI / 180);
+
+		context.drawImage(img, - (iconSize / 2), - (iconSize / 2), iconSize, iconSize / aspectRatio)
+		context.restore();
+	});
+
+	context.restore();
+
+	orbitOffset = (orbitOffset + orbitIncrement) % orbitMax;
+	window.requestAnimationFrame(drawMoon);
 };
 
 function generateMoonGradient(context, moonRadius) {
@@ -178,20 +239,6 @@ function debounce(func, wait, immediate) {
 };
 
 /*
-function initSpace() {
-	initSVGs();
-	initOrbit();
-}
-
-function initMoon(scene) {
-	//TODO: figure out how to preserve aspect ratio when scaling with snap
-	var cX = 0;
-	var cY = 0;
-	var cRadius = 180;
-
-	var moon = scene.circle('50%', '50%', '20%');
-	moon.attr({'fill': 'r(0.75,-0.25,2.5)-#FF9D5C-#FFCC99:20-#FF8B6F:35-#FFCC99:42-#FFA375:53'});
-}
 
 function updateOrbitCenter() {
 	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
@@ -218,43 +265,6 @@ function initOrbit() {
 	window.requestAnimationFrame(function() {
 		updateOrbit(orbitElements);
 	})
-}
-
-//TODO: position moon + orbit seriously
-function updateOrbit(elements) {
-	var step = 2 * Math.PI / elements.length;
-	var theta = -25 * (2 * Math.PI / 360); //rotation angle
-
-	var i = 0;
-
-	for(var angle = 0; angle < 2*Math.PI; angle += step) {
-		var x = orbitXRadius * Math.cos(angle + orbitOffset);
-		var y = orbitYRadius * Math.sin(angle + orbitOffset);
-
-		var cosTheta = Math.cos(theta);
-		var sinTheta = Math.sin(theta);
-
-		//rotate by theta degrees
-		var xDash = x * cosTheta + y * sinTheta;
-		var yDash = y * cosTheta - x * sinTheta;
-
-		elements[i].style.left = orbitCenterX + xDash + 'px';
-		elements[i].style.top = orbitCenterY + yDash + 'px';
-
-		if(y < 0) {
-			elements[i].style.zIndex = 0;
-		} else {
-			elements[i].style.zIndex = 2;
-		}
-
-		i += 1;
-	}
-
-	orbitOffset = (orbitOffset + orbitIncrement) % orbitMax;
-
-	window.requestAnimationFrame(function() {
-		updateOrbit(elements);
-	});
 }
 */
 
