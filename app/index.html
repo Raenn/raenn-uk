@@ -47,7 +47,10 @@
 
 		<main>
 			<div class="content">
-				<canvas id="star-canvas" class="stars animated fadeIn"></canvas>
+				<canvas id="star-canvas" class="stars animated fadeIn">
+					<!-- accessability fallback -->
+					<p>The background is an array of stars.</p>
+				</canvas>
 
 				<section class="panel welcome">
 					<h1 class="ahoy animated fadeInDown">Ahoy!</h1>
@@ -66,8 +69,10 @@
 							<p>I'm also a keen <a target="_blank" href="http://origami-t-rex.tumblr.com/">origamist</a>, <a target="_blank" href="http://lang-8.com/raenn/">Japanese learner</a>, baker and <a target="_blank" href="http://www.steamcommunity.com/id/Raenn">gamer</a>!</p>
 						</div>
 					</div>
-					<canvas class="moon">
-						
+					<canvas id="moon-canvas" class="moon">
+						<!-- accessability fallback -->
+						<p>A small moon, being orbited by images representing my main interests.</p>
+						<p>There's a Japanese flag, the JavaScript logo, an origami crane, the Ruby logo, the Steam logo, a cup of coffee, a Storm Trooper helmet, and the Android logo.</p>
 					</canvas>
 					<!-- <div class="moon-wrapper">
 						<svg id="moon" viewBox="0 0 500 500"></svg>

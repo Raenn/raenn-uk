@@ -3,16 +3,13 @@ let orbitOffset = 0;
 let orbitIncrement = Math.PI / 512;
 const orbitMax = 2 * Math.PI;
 
-let orbitCenterX = 0;
-let orbitCenterY = 0;
-let orbitXRadius = 200;
-let orbitYRadius = 80;
+// let orbitCenterX = 0;
+// let orbitCenterY = 0;
+// let orbitXRadius = 200;
+// let orbitYRadius = 80;
 
 let cvActive = false;
 let activeCVSection = 0;
-
-let starScenes = [];
-let ticking = false;
 
 window.onload = init;
 window.onresize = debounce(resizeCanvases, 200);
@@ -28,21 +25,25 @@ function handleScroll(event) {
 	}
 }
 
-var starCanvas;
-const minRadius = 1.5;
+let starCanvas, moonCanvas;
+const minStarRadius = 1.5;
 const parallaxMultiplier = 0.6;
-var starNum = 1000;
-var starLocations = [];
+let starNum = 1000;
+let starLocations = [];
+let ticking = false;
 
 function init() {
 	initStarCanvas();
-}
+	initMoonCanvas();
+};
 
 function initStarCanvas() {
 	starCanvas = document.getElementById('star-canvas');
+	starCanvas.width = document.body.clientWidth;
+	starCanvas.height = document.body.clientHeight + 60; //extra 60 avoids URL bar issues on mobile
 
-	initCanvasSizes();
 	generateStars();
+	drawStars(window.pageYOffset);
 };
 
 function resizeCanvases() {
@@ -58,12 +59,6 @@ function resizeCanvases() {
 		starCanvas.style.height = `${(starCanvas.height + 60) * scaleFactor}px`;
 	}
 };
-
-function initCanvasSizes() {
-	starCanvas.width = document.body.clientWidth;
-	starCanvas.height = document.body.clientHeight + 60; //extra 60 avoids URL bar issues on mobile
-	drawStars(window.pageYOffset);
-}
 
 function generateStars() {
 	for(var i = 0; i < starNum; i++) {
@@ -109,7 +104,7 @@ function drawStars(scrollY) {
 		context.translate(star.x, yPos);
 
 		context.beginPath();
-		context.arc(0, 0, minRadius * star.scale, 0, 2 * Math.PI, true);
+		context.arc(0, 0, minStarRadius * star.scale, 0, 2 * Math.PI, true);
 		//scale gradient to match star size
 		context.scale(star.scale, star.scale);
 		context.fill();
@@ -123,6 +118,50 @@ function drawStars(scrollY) {
 	//we're ready to do more parallax on next scroll
 	ticking = false;
 };
+
+function initMoonCanvas() {
+	moonCanvas = document.getElementById('moon-canvas');
+	//TODO: actual calculation
+	moonCanvas.width = 500;
+	moonCanvas.height = 500;
+	drawMoon();
+};
+
+function drawMoon() {
+	const context = moonCanvas.getContext('2d');
+	//clear canvas
+	context.clearRect(0, 0, starCanvas.width, starCanvas.height)
+
+	//TODO: actual calculation
+	let orbitCenterX = 250;
+	let orbitCenterY = 250;
+	let moonRadius = 100;
+
+	let gradient = generateMoonGradient(context, moonRadius);
+
+	//first draw moon
+	context.save();
+		context.translate(orbitCenterX + moonRadius, orbitCenterY + moonRadius)
+		context.beginPath();
+		context.fillStyle = gradient;
+		context.arc(0, 0, moonRadius, 0, Math.PI*2, true);
+		context.closePath();
+		context.translate( moonRadius * 0.35, -moonRadius * 1.1);
+		context.fill();
+	context.restore();
+};
+
+function generateMoonGradient(context, moonRadius) {
+	let gradient = context.createRadialGradient(0, 0, 0,
+												0, 0, moonRadius * 3);
+	gradient.addColorStop(0, '#FF9D5C');
+	gradient.addColorStop(0.2, '#FFC68C');
+	gradient.addColorStop(0.4, '#FF8B6F');
+	gradient.addColorStop(0.6, '#FFCC99');
+	gradient.addColorStop(0.78, '#FFA375');
+
+	return gradient;
+}
 
 function debounce(func, wait, immediate) {
 	var timeout;
@@ -140,7 +179,7 @@ function debounce(func, wait, immediate) {
 		timeout = setTimeout(later, wait);
 		if (callNow) { func.apply(context, args) };
 	}
-}
+};
 
 /*
 function initSpace() {

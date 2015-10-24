@@ -87,8 +87,9 @@ main {
 			z-index: 1;
 			overflow: hidden;
 
-			animation-duration: 3s;
-			animation-delay: 2.5s;
+			//TODO: remove (quicker when developing)
+			// animation-duration: 3s;
+			// animation-delay: 2.5s;
 		}
 
 		.panel {
@@ -201,8 +202,8 @@ main {
 				.moon {
 					// z-index: 1;
 					//TEMPORARY
-					height: 100%;
-					width: 50%;
+					// height: 100%;
+					// width: 50%;
 					float: right;
 					left: 50%;
 
