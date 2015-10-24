@@ -53,8 +53,8 @@ function resizeCanvases() {
 	if (widthAfter > widthBefore) {
 		//increase the scale of the canvas; quicker than a whole redraw and preserves element recycling logic
 		var scaleFactor = widthAfter / widthBefore;
-		starCanvas.style.width = starCanvas.width * scaleFactor + 'px';
-		starCanvas.style.height = (starCanvas.height + 60) * scaleFactor + 'px';
+		starCanvas.style.width = `${starCanvas.width * scaleFactor}px`;
+		starCanvas.style.height = `${(starCanvas.height + 60) * scaleFactor}px`;
 	}
 };
 
@@ -89,7 +89,7 @@ function drawStars(scrollY) {
 	var parallaxStep = -parallaxMultiplier * scrollY;
 	var parallaxAmount = 0;
 
-	starLocations.forEach(function(star, index) {
+	starLocations.forEach( (star, index) => {
 		//start a new parallax layer every so often
 		if(index % 100 == 0) {
 			parallaxAmount += parallaxStep;

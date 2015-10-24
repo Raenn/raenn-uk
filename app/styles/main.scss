@@ -198,59 +198,56 @@ main {
 					}
 				}
 
-				.moon-wrapper {
-					z-index: 1;
+				.moon {
+					// z-index: 1;
+					//TEMPORARY
 					height: 100%;
 					width: 50%;
 					float: right;
-					position: relative;
+					left: 50%;
 
 					@media(max-width: 767px) {
 						width: 100%;
 						height: 50%;
 					}
+/*
+					.orbit-image-container {
+						position: absolute;
+						top: 0;
+						left: 0;
 
-					#moon {
-						width: 100%;
-						height: 100%;
-					}
-				}
-
-				.orbit-image-container {
-					position: absolute;
-					top: 0;
-					left: 0;
-
-					.orbit-relative-wrapper {
-						position: relative;
-					}
-				}
-
-				.orbit-image {
-					position: absolute;
-					width: 75px;
-					transform: rotate(6deg);
-					-webkit-transform: translateZ(0);
-
-					@media(max-width: 767px) {
-						width: 60px;
+						.orbit-relative-wrapper {
+							position: relative;
+						}
 					}
 
-					&.japan {
-						padding-bottom: 14px;
-					}
+					.orbit-image {
+						position: absolute;
+						width: 75px;
+						transform: rotate(6deg);
+						-webkit-transform: translateZ(0);
 
-					&.steam, &.js, &.stormtrooper {
-						padding: 8px;
-					}
+						@media(max-width: 767px) {
+							width: 60px;
+						}
 
-					&.coffee {
-						padding: 4px;
-					}
+						&.japan {
+							padding-bottom: 14px;
+						}
 
-					&.android {
-						padding: 13px;
+						&.steam, &.js, &.stormtrooper {
+							padding: 8px;
+						}
+
+						&.coffee {
+							padding: 4px;
+						}
+
+						&.android {
+							padding: 13px;
+						}
 					}
+					*/
 				}
 			}
 
