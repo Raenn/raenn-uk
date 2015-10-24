@@ -92,20 +92,16 @@ function drawStars(scrollY) {
 			context.translate(0, parallaxStep);
 		}
 
-		context.save();
-
 		//reuse elements that go above top of screen
 		var yPos = star.y;
 		while (yPos < -parallaxAmount) {
 			yPos += starCanvas.height;
 		}
 
-		//translate to star position so gradient center is correct
-		context.translate(star.x, yPos);
-
 		context.beginPath();
-		context.arc(0, 0, minStarRadius * star.scale, 0, 2 * Math.PI, true);
+		context.arc(star.x, yPos, minStarRadius * star.scale, 0, 2 * Math.PI, true);
 		//scale gradient to match star size
+		context.save();
 		context.scale(star.scale, star.scale);
 		context.fill();
 		context.closePath();
@@ -156,7 +152,7 @@ function generateMoonGradient(context, moonRadius) {
 												0, 0, moonRadius * 3);
 	gradient.addColorStop(0, '#FF9D5C');
 	gradient.addColorStop(0.2, '#FFC68C');
-	gradient.addColorStop(0.4, '#FF8B6F');
+	gradient.addColorStop(0.42, '#FF8B6F');
 	gradient.addColorStop(0.6, '#FFCC99');
 	gradient.addColorStop(0.78, '#FFA375');
 
