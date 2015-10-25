@@ -157,7 +157,7 @@ function updateMoonCanvasSize() {
 	const bodyWidth = document.body.clientWidth;
 
 	if (bodyWidth >= 768) {
-		moonCanvas.width = bodyWidth / 2;
+		moonCanvas.width = Math.min(bodyWidth / 2, 750);
 	} else {
 		moonCanvas.width = bodyWidth;
 	}
