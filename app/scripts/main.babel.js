@@ -99,13 +99,21 @@ function drawStars(scrollY) {
 
 	context.save();
 	context.fillStyle = '#E6E6E6';
-	var parallaxStep = -parallaxMultiplier * scrollY;
-	var parallaxAmount = 0;
+
+	let parallaxAmount = 0;
+	const parallaxThreshold = 75;
+	const parallaxLayers = Math.ceil(starLocations.length / parallaxThreshold);
+	const parallaxStep = -parallaxMultiplier * scrollY;
+
+	let starRadiusModifier = 1;
+	const starMinRadiusModifier = 0.4;
+	const starStep = (starRadiusModifier - starMinRadiusModifier) / parallaxLayers;
 
 	starLocations.forEach( (star, index) => {
 		//start a new parallax layer every so often
-		if(index % 75 == 0) {
+		if(index % parallaxThreshold == 0) {
 			parallaxAmount += parallaxStep;
+			starRadiusModifier -= starStep;
 			context.translate(0, parallaxStep);
 		}
 
@@ -115,11 +123,17 @@ function drawStars(scrollY) {
 			yPos += starCanvas.height;
 		}
 
+		let starRadiusScale = star.scale * starRadiusModifier;
+
 		context.beginPath();
-		context.arc(star.x, yPos, minStarRadius * star.scale, 0, 2 * Math.PI, true);
+		context.arc(star.x, yPos,
+					minStarRadius * starRadiusScale,
+					0, 2 * Math.PI,
+					true
+					);
 		//scale gradient to match star size
 		context.save();
-		context.scale(star.scale, star.scale);
+		context.scale(starRadiusScale, starRadiusScale);
 		context.fill();
 		context.closePath();
 
