@@ -20,7 +20,14 @@ window.onresize = debounce(resizeCanvases, 200);
 window.onscroll = handleScroll;
 window.ontouchmove = handleScroll;
 
+let scrollChevronActive = true;
+
 function handleScroll(event) {
+	if(scrollChevronActive && window.pageYOffset !== 0) {
+		document.getElementById('hero-chevron').className += ' invisible';
+		document.getElementsByClassName('chevron-caption')[0].className += ' invisible';
+		scrollChevronActive = false;
+	}
 	if(!ticking) {
 		ticking = true;
 		requestAnimationFrame(function() {
@@ -273,6 +280,34 @@ window.requestAnimationFrame = window.requestAnimationFrame
 	|| window.webkitRequestAnimationFrame
 	|| window.msRequestAnimationFrame
 	|| function(f){return setTimeout(f, 1000/60)} //fall back method, run roughly 60 times per second
+
+function scrollToAbout(duration) {
+	const start = window.scrollY,
+		  change = document.getElementById('about-anchor').offsetTop - start,
+		  increment = 20;
+
+	let animateScroll = function(elapsed) {
+		elapsed += increment;
+		const position = easeInOut(elapsed, start, change, duration);
+		window.scrollTo(0, position);
+		if (elapsed < duration) {
+			setTimeout(() => {
+				animateScroll(elapsed);
+			}, increment)
+		}
+	}
+
+	animateScroll(0);
+}
+
+function easeInOut(currentTime, start, change, duration) {
+    currentTime /= duration / 2;
+    if (currentTime < 1) {
+        return change / 2 * currentTime * currentTime + start;
+    }
+    currentTime -= 1;
+    return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+}
 
 function toggleCV() {
 	var cvBox = document.getElementById('cv-container');
