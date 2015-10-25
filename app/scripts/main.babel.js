@@ -3,10 +3,14 @@ let orbitOffset = 0;
 let orbitIncrement = Math.PI / 512;
 const orbitMax = 2 * Math.PI;
 
-// let orbitCenterX = 0;
-// let orbitCenterY = 0;
-// let orbitXRadius = 200;
-// let orbitYRadius = 80;
+//moon/orbit globals, rewritten on init/resize
+let orbitCenterX = 0;
+let orbitCenterY = 0;
+let moonRadius = 100;
+let moonGradient = undefined;
+let orbitXRadius = 200;
+let orbitYRadius = 80;
+let orbitYOffset = 20;
 
 let cvActive = false;
 let activeCVSection = 0;
@@ -158,6 +162,15 @@ function updateMoonCanvasSize() {
 		moonCanvas.width = bodyWidth;
 	}
 	moonCanvas.height = moonCanvas.width * 0.6;
+
+	orbitCenterX = moonCanvas.width / 2;
+	orbitCenterY = moonCanvas.height / 2;
+	moonRadius = orbitCenterX / 2.5;
+	orbitXRadius = 2 * moonRadius;
+	orbitYRadius = 0.5 * moonRadius;
+	orbitYOffset = -0.1 * moonRadius;
+
+	moonGradient = generateMoonGradient(moonCanvas.getContext('2d'), moonRadius);
 };
 
 function initMoonCanvas() {
@@ -187,22 +200,11 @@ function drawMoon() {
 	//clear canvas
 	context.clearRect(0, 0, moonCanvas.width, moonCanvas.height)
 
-	//TODO: actual calculation
-	let orbitCenterX = moonCanvas.width / 2;
-	let orbitCenterY = moonCanvas.height / 2;
-	let moonRadius = orbitCenterX / 2.5;
-
-	let orbitXRadius = 2 * moonRadius;
-	let orbitYRadius = 0.5 * moonRadius;
-	let orbitYOffset = -0.1 * moonRadius;
-
-	let gradient = generateMoonGradient(context, moonRadius);
-
 	//first draw moon
 	context.save();
 		context.translate(orbitCenterX, orbitCenterY)
 		context.beginPath();
-		context.fillStyle = gradient;
+		context.fillStyle = moonGradient;
 		context.arc(0, 0, moonRadius, 0, Math.PI*2, true);
 		context.closePath();
 		context.translate( moonRadius * 0.35, -moonRadius * 1.1);
