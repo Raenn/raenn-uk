@@ -47,13 +47,10 @@
 
 		<main>
 			<div class="content">
-
-				<!-- class="animated fadeIn" -->
-				<div class="stars-wrapper animated fadeIn">
-					<svg id="stars-near" class="stars" parallax-amount="0.4"></svg>
-					<svg id="stars-mid" class="stars" parallax-amount="0.6"></svg>
-					<svg id="stars-far" class="stars" parallax-amount="0.8"></svg>
-				</div>
+				<canvas id="star-canvas" class="stars animated fadeIn">
+					<!-- accessability fallback -->
+					<p>The background is an array of stars.</p>
+				</canvas>
 
 				<section class="panel welcome">
 					<h1 class="ahoy animated fadeInDown">Ahoy!</h1>
@@ -73,19 +70,11 @@
 						</div>
 					</div>
 					<div class="moon-wrapper">
-						<svg id="moon" viewBox="0 0 500 500"></svg>
-					</div>
-					<div class="orbit-image-container">
-						<div class="orbit-relative-wrapper">
-							<img class="orbit-image japan" src="images/japan.png">
-							<img class="orbit-image js" src="images/js.png">
-							<img class="orbit-image" src="images/origami.png">
-							<img class="orbit-image" src="images/ruby.png">
-							<img class="orbit-image steam" src="images/steam.png">
-							<img class="orbit-image coffee" src="images/coffee.png">
-							<img class="orbit-image stormtrooper" src="images/stormtrooper.png">
-							<img class="orbit-image android" src="images/android.png">
-						</div>
+						<canvas id="moon-canvas" class="moon">
+							<!-- accessability fallback -->
+							<p>A small moon, being orbited by images representing my main interests.</p>
+							<p>There's a Japanese flag, the JavaScript logo, an origami crane, the Ruby logo, the Steam logo, a cup of coffee, a Storm Trooper helmet, and the Android logo.</p>
+						</canvas>
 					</div>
 				</section>
 
@@ -114,108 +103,108 @@
 							</div>
 						</div>
 					</div>
+				</section>
 
-					<section id="cv-container">
-						<div class="cv-box">
-							<span class="close fo-close" onclick="toggleCV()"></span>
-							<h1>Dan Belsey</h1>
-							<hr>
-							<h3>Full-Stack Developer</h3>
+				<section id="cv-container">
+					<div class="cv-box">
+						<span class="close fo-close" onclick="toggleCV()"></span>
+						<h1>Dan Belsey</h1>
+						<hr>
+						<h3>Full-Stack Developer</h3>
 
-							<ol class="sections">
-								<li class="cv-section active"><a onclick="setActiveCVSection(0)">Experience</a></li>
-								<li class="cv-section"><a onclick="setActiveCVSection(1)">Education</a></li>
-								<li class="cv-section"><a onclick="setActiveCVSection(2)">Other</a></li>
-							</ol>
+						<ol class="sections">
+							<li class="cv-section active"><a onclick="setActiveCVSection(0)">Experience</a></li>
+							<li class="cv-section"><a onclick="setActiveCVSection(1)">Education</a></li>
+							<li class="cv-section"><a onclick="setActiveCVSection(2)">Other</a></li>
+						</ol>
 
-							<hr>
+						<hr>
 
-							<div class="cv-copy">
-								<div class="copy-section active">
+						<div class="cv-copy">
+							<div class="copy-section active">
 
-									<p class="key-skills">Key skills</p>
-									<ol class="description key-skills">
-										<li>A passionate software developer with experience in many fields, and huge enthusiasm for both learning new skills and refining existing ones. A quick learner with a proven record of excellence, seeking a fresh opportunity to work full-stack on an exciting project with cutting-edge technology.</li>
+								<p class="key-skills">Key skills</p>
+								<ol class="description key-skills">
+									<li>A passionate software developer with experience in many fields, and huge enthusiasm for both learning new skills and refining existing ones. A quick learner with a proven record of excellence, seeking a fresh opportunity to work full-stack on an exciting project with cutting-edge technology.</li>
 
-										<li>Main skills:</li>
-										<li>JavaScript, Ruby, Java, Jenkins, MongoDB, web services, Git, TDD</li>
-									</ol>
+									<li>Main skills:</li>
+									<li>JavaScript, Ruby, Java, Jenkins, MongoDB, web services, Git, TDD</li>
+								</ol>
 
-									<section class="company-logo-box katchup">
-										<img src="../images/katchup.png">
-									</section>
-									<p class="tagline">Jan 2015 - Present</p>
-									<p class="tagline">Full Stack Developer</p>
-									<ol class="description">
-										<li>Working primarily on the AngularJS front end, working closely with product designer and marketing team to develop several new site features. Usually worked alone but often working closely with back-end developers to refine requirements and design.</li>
-										<li>Frequently deployed several times a day in an incredibly fast-paced team constantly working with new and changing requirements.</li>
-										<li>Also responsible for a (as yet unreleased) total rewrite of the site to follow Angular best practices and improve testability of code, using a Gulp build pipeline, Sass, and Jasmine/Selenium/Protractor for testing.</li>
-										<li>More recently, also became sole back-end developer. Responsible for feature development in Java, as well as bug fixing and additions to MongoDB schema.</li>
-									</ol>
+								<section class="company-logo-box katchup">
+									<img src="../images/katchup.png">
+								</section>
+								<p class="tagline">Jan 2015 - Present</p>
+								<p class="tagline">Full Stack Developer</p>
+								<ol class="description">
+									<li>Working primarily on the AngularJS front end, working closely with product designer and marketing team to develop several new site features. Usually worked alone but often working closely with back-end developers to refine requirements and design.</li>
+									<li>Frequently deployed several times a day in an incredibly fast-paced team constantly working with new and changing requirements.</li>
+									<li>Also responsible for a (as yet unreleased) total rewrite of the site to follow Angular best practices and improve testability of code, using a Gulp build pipeline, Sass, and Jasmine/Selenium/Protractor for testing.</li>
+									<li>More recently, also became sole back-end developer. Responsible for feature development in Java, as well as bug fixing and additions to MongoDB schema.</li>
+								</ol>
 
-									<section class="company-logo-box bt">
-										<img src="../images/bt_white.png">
-									</section>
-									<p class="tagline">Sep 2013 - Dec 2014</p>
-									<p class="tagline">Graduate Software Developer</p>
+								<section class="company-logo-box bt">
+									<img src="../images/bt_white.png">
+								</section>
+								<p class="tagline">Sep 2013 - Dec 2014</p>
+								<p class="tagline">Graduate Software Developer</p>
 
-									<ol class="description">
-										<li>Developed several responsive web front ends for internal use. Sole developer of several internal command-line programs, largely Java or shell scripts.</li>
-										<li>Frequently responsible for both UI/UX design, including running usability tests throughout development.</li>
-										<li>Attended and occasionally ran weekly "Coding Dojos" in both Ruby and Java: small coding exercises designed to improve TDD and pair-programming skills, whilst also improving core language skills through open discussion of each others' solutions.</li>
-										<li>Led a development team of seven Modern Apprentices for several weeks; responsible for both technical design and team management, on top of contributing to the codebase. Ran weekly study sessions for wider team of apprentices to assist with their university course.</li>
-										<li>Developed several back-end SharePoint controls in C#, and responsible for managing deployment process.</li>
-									</ol>
+								<ol class="description">
+									<li>Developed several responsive web front ends for internal use. Sole developer of several internal command-line programs, largely Java or shell scripts.</li>
+									<li>Frequently responsible for both UI/UX design, including running usability tests throughout development.</li>
+									<li>Attended and occasionally ran weekly "Coding Dojos" in both Ruby and Java: small coding exercises designed to improve TDD and pair-programming skills, whilst also improving core language skills through open discussion of each others' solutions.</li>
+									<li>Led a development team of seven Modern Apprentices for several weeks; responsible for both technical design and team management, on top of contributing to the codebase. Ran weekly study sessions for wider team of apprentices to assist with their university course.</li>
+									<li>Developed several back-end SharePoint controls in C#, and responsible for managing deployment process.</li>
+								</ol>
 
-									<section class="company-logo-box bae">
-										<img src="../images/bae.png">
-									</section>
-									<p class="tagline">Jul 2011 - Jul 2012</p>
-									<p class="tagline">Industrial Placement</p>
+								<section class="company-logo-box bae">
+									<img src="../images/bae.png">
+								</section>
+								<p class="tagline">Jul 2011 - Jul 2012</p>
+								<p class="tagline">Industrial Placement</p>
 
-									<ol class="description">
-										<li>Developed several applications in high-level languages as part of the Human Factors capability. Worked mostly in C++ and Pascal (with no prior experience), usually as sole developer.</li>
-										<li>Worked closely with design and psychology experts on each program's interface, sparking my interest in user experience in general.</li>
-										<li>Had to communicate effectively with customers to refine vague and changing requirements, especially when adding features to existing, undocumented applications.</li>
-										<li>Frequently gave presentations on work to both existing and potential clients, as well as the wider team.</li>
-										<li>Suggested a new project to the Olympic Taekwondo team based on an existing project, and subsequently implemented it, which was a great success for both the business and the team.</li>
-									</ol>
-								</div>
+								<ol class="description">
+									<li>Developed several applications in high-level languages as part of the Human Factors capability. Worked mostly in C++ and Pascal (with no prior experience), usually as sole developer.</li>
+									<li>Worked closely with design and psychology experts on each program's interface, sparking my interest in user experience in general.</li>
+									<li>Had to communicate effectively with customers to refine vague and changing requirements, especially when adding features to existing, undocumented applications.</li>
+									<li>Frequently gave presentations on work to both existing and potential clients, as well as the wider team.</li>
+									<li>Suggested a new project to the Olympic Taekwondo team based on an existing project, and subsequently implemented it, which was a great success for both the business and the team.</li>
+								</ol>
+							</div>
 
-								<div class="copy-section">
-									<section class="company-logo-box uni">
-										<img src="../images/uni.png">
-									</section>
-									<p class="tagline">2009-2013</p>
-									<p class="tagline">First Class BEng (Hons) Computer Science</p>
-									<ol class="description">
-										<li>Achieved a First for dissertation, titled “Tracking Bird Flocks in Offshore Radar”. This involved a combination of computer vision and machine learning techniques to detect and track flocks in noisy radar images, then analyse their flight patterns.</li>
+							<div class="copy-section">
+								<section class="company-logo-box uni">
+									<img src="../images/uni.png">
+								</section>
+								<p class="tagline">2009-2013</p>
+								<p class="tagline">First Class BEng (Hons) Computer Science</p>
+								<ol class="description">
+									<li>Achieved a First for dissertation, titled “Tracking Bird Flocks in Offshore Radar”. This involved a combination of computer vision and machine learning techniques to detect and track flocks in noisy radar images, then analyse their flight patterns.</li>
 
-										<li>Final year modules covered Analysable Real Time Systems, Computer Vision, Computing by Graph Transformation and Machine Learning and Applications.</li>
+									<li>Final year modules covered Analysable Real Time Systems, Computer Vision, Computing by Graph Transformation and Machine Learning and Applications.</li>
 
-										<li>Completed several programming assessments in Scheme, Java, MATLAB, C, C++ and Ada.</li>
+									<li>Completed several programming assessments in Scheme, Java, MATLAB, C, C++ and Ada.</li>
 
-										<li>Earlier modules covered general programming principles, usually implemented in Java.</li>
+									<li>Earlier modules covered general programming principles, usually implemented in Java.</li>
 
-										<li>Other modules included: operating systems, algorithms and data structures, computer graphics, design of interactive systems, AI, relational databases and query languages, networks and distributed systems, low-level computer architectures, digital and analogue circuit design.</li>
+									<li>Other modules included: operating systems, algorithms and data structures, computer graphics, design of interactive systems, AI, relational databases and query languages, networks and distributed systems, low-level computer architectures, digital and analogue circuit design.</li>
 
-										<li>Completed a 12 month industrial placement at BAE Systems’ Advanced Technology Centre in Filton.</li>
-									</ol>
-								</div>
-								<div class="copy-section">
-									<ol class="description">
-										<li>Currently enrolled in a 7-week MongoDB University course.</li>
-										<li>Developed buzzwordipsum.com with a colleague. Created the original JavaScript prototype, then developed the front end and a "marketing robot", developed in Ruby. Also contributed some features to the Python backend.</li>
-										<li>Developed a basic Android Wear watchface, "ish", which gives an approximate time in words rather than a traditional clock face.</li>
-										<li>Regularly practice development skills on codewars, to keep Ruby skills fresh and to learn about new features and design patterns.</li>
-										<li>Member of the British Origami Society for 4 years.</li>
-										<li>Self-teaching Japanese language for 3 years.</li>
-										<li>Made this website!</li>
-									</ol>
-								</div>
+									<li>Completed a 12 month industrial placement at BAE Systems’ Advanced Technology Centre in Filton.</li>
+								</ol>
+							</div>
+							<div class="copy-section">
+								<ol class="description">
+									<li>Currently enrolled in a 7-week MongoDB University course.</li>
+									<li>Developed buzzwordipsum.com with a colleague. Created the original JavaScript prototype, then developed the front end and a "marketing robot", developed in Ruby. Also contributed some features to the Python backend.</li>
+									<li>Developed a basic Android Wear watchface, "ish", which gives an approximate time in words rather than a traditional clock face.</li>
+									<li>Regularly practice development skills on codewars, to keep Ruby skills fresh and to learn about new features and design patterns.</li>
+									<li>Member of the British Origami Society for 4 years.</li>
+									<li>Self-teaching Japanese language for 3 years.</li>
+									<li>Made this website!</li>
+								</ol>
 							</div>
 						</div>
-					</section>
+					</div>
 				</section>
 			</div>
 
