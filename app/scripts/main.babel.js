@@ -268,36 +268,6 @@ function debounce(func, wait, immediate) {
 	}
 };
 
-/*
-
-function updateOrbitCenter() {
-	var moonAttrs = document.getElementById('moon').getBoundingClientRect();
-
-	if(window.innerWidth < 768) {
-		//on mobile, moon is BENEATH copy; Y position needs to be calculated differently
-		orbitCenterX = (moonAttrs.width / 2) -30;
-		orbitCenterY = moonAttrs.height * 1.4;
-	} else {
-		//slight shifts needed because of rotation
-		orbitCenterX = moonAttrs.left * 0.98 + (moonAttrs.width / 2) - 30;
-		orbitCenterY = moonAttrs.height / 2.2;
-	}
-
-	orbitXRadius = Math.min(280, (moonAttrs.width / 2) * 0.75);
-	orbitYRadius = orbitXRadius * 0.4;
-}
-
-function initOrbit() {
-	//TODO: pause/start interval only when moon is in view
-	updateOrbitCenter();
-	var orbitElements = document.getElementsByClassName('orbit-image');
-
-	window.requestAnimationFrame(function() {
-		updateOrbit(orbitElements);
-	})
-}
-*/
-
 window.requestAnimationFrame = window.requestAnimationFrame
 	|| window.mozRequestAnimationFrame
 	|| window.webkitRequestAnimationFrame
