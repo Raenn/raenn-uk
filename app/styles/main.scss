@@ -190,8 +190,10 @@ main {
 					}
 				}
 
-				.copy-vertical-wrapper {
-					width: 50%;
+				.copy-vertical-wrapper,
+				.moon-wrapper {
+					width: 49.5%; //sigh
+					display: inline-block;
 
 					@media(max-width: 767px) {
 						width: 100%;
@@ -200,55 +202,11 @@ main {
 				}
 
 				.moon {
-					// z-index: 1;
-					//TEMPORARY
-					// height: 100%;
-					// width: 50%;
+					z-index: 1;
+					position: absolute;
 					float: right;
-					left: 50%;
-
-					@media(max-width: 767px) {
-						width: 100%;
-						height: 50%;
-					}
-/*
-					.orbit-image-container {
-						position: absolute;
-						top: 0;
-						left: 0;
-
-						.orbit-relative-wrapper {
-							position: relative;
-						}
-					}
-
-					.orbit-image {
-						position: absolute;
-						width: 75px;
-						transform: rotate(6deg);
-						-webkit-transform: translateZ(0);
-
-						@media(max-width: 767px) {
-							width: 60px;
-						}
-
-						&.japan {
-							padding-bottom: 14px;
-						}
-
-						&.steam, &.js, &.stormtrooper {
-							padding: 8px;
-						}
-
-						&.coffee {
-							padding: 4px;
-						}
-
-						&.android {
-							padding: 13px;
-						}
-					}
-					*/
+					top: 50%;
+					transform: translateY(-50%);
 				}
 			}
 

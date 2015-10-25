@@ -64,17 +64,19 @@ function initStarCanvas() {
 };
 
 function resizeCanvases() {
-	//TODO: resize moon canvas too
-	if (!starCanvas) { return; }
+	if (!starCanvas || !moonCanvas) { return; }
 	const widthBefore = starCanvas.width;
 	const widthAfter = document.body.clientWidth;
 
 	if (widthAfter > widthBefore) {
-		//increase the scale of the canvas; quicker than a whole redraw and preserves element recycling logic
+		//increase the scale of the star canvas; quicker than a whole redraw and preserves element recycling logic
 		let scaleFactor = widthAfter / widthBefore;
 		starCanvas.style.width = `${starCanvas.width * scaleFactor}px`;
 		starCanvas.style.height = `${(starCanvas.height + 60) * scaleFactor}px`;
 	}
+
+	//resize moon element
+	updateMoonCanvasSize();
 };
 
 function generateStars() {
@@ -146,11 +148,20 @@ function drawStars(scrollY) {
 	ticking = false;
 };
 
-function initMoonCanvas() {
+function updateMoonCanvasSize() {
 	moonCanvas = document.getElementById('moon-canvas');
-	//TODO: actual calculation
-	moonCanvas.width = 500;
-	moonCanvas.height = 500;
+	const bodyWidth = document.body.clientWidth;
+
+	if (bodyWidth >= 768) {
+		moonCanvas.width = bodyWidth / 2;
+	} else {
+		moonCanvas.width = bodyWidth;
+	}
+	moonCanvas.height = moonCanvas.width * 0.6;
+};
+
+function initMoonCanvas() {
+	updateMoonCanvasSize();
 
 	let imagePromises = [];
 
@@ -177,9 +188,9 @@ function drawMoon() {
 	context.clearRect(0, 0, moonCanvas.width, moonCanvas.height)
 
 	//TODO: actual calculation
-	let orbitCenterX = 250;
-	let orbitCenterY = 250;
-	let moonRadius = 100;
+	let orbitCenterX = moonCanvas.width / 2;
+	let orbitCenterY = moonCanvas.height / 2;
+	let moonRadius = orbitCenterX / 2.5;
 
 	let orbitXRadius = 2 * moonRadius;
 	let orbitYRadius = 0.5 * moonRadius;
@@ -199,7 +210,7 @@ function drawMoon() {
 	context.restore();
 
 	//now draw interest icons - capped at 100px
-	const iconSize = Math.min(moonRadius * 0.7, 100);
+	const iconSize = Math.min(moonRadius * 0.6, 100);
 
 	context.save();
 	context.translate(orbitCenterX, orbitCenterY + orbitYOffset)
