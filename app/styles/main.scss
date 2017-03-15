@@ -309,6 +309,15 @@ main {
 						}
 					}
 
+					&.instagram {
+						//instagram don't really have a brand colour, even in their guidelines... winging it
+						$instagramColor: rgb(217, 49, 117);
+						background-color: rgba($instagramColor, 0.2);
+						&:hover {
+							background-color: rgba($instagramColor, 0.9);
+						}
+					}
+
 					span {
 						font-size: 40px;
 						border-bottom-width: 0px;
