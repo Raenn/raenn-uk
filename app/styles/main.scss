@@ -536,6 +536,10 @@ main {
 					margin-bottom: 15px;
 					overflow-y: hidden;
 
+					&.edume {
+						background: linear-gradient(to bottom, #307fa7, #266b8e) #307fa7;
+					}
+
 					&.katchup {
 						background-color: #432449;
 					}

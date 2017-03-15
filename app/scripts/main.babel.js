@@ -48,6 +48,7 @@ const interests = [
 	'images/js.png',
 	'images/origami.png',
 	'images/ruby.png',
+	'images/dslr.png',
 	'images/steam.png',
 	'images/coffee.png',
 	'images/stormtrooper.png',
